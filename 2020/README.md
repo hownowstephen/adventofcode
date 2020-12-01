@@ -1,6 +1,6 @@
 # Advent of Code 2020
 
-Goal is to use a new language every day, alphabetically
+Goal is to use a new language every day, [alphabetically](https://en.wikipedia.org/wiki/List_of_programming_languages)
 
 ### Dec 1st: [Ada](https://www.adacore.com/get-started)
 
