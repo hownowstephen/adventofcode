@@ -1,0 +1,85 @@
+IDENTIFICATION DIVISION.
+PROGRAM-ID. hello.
+ENVIRONMENT DIVISION.
+ INPUT-OUTPUT SECTION.
+ FILE-CONTROL.
+     SELECT InputFile ASSIGN TO "input.txt"
+         ORGANIZATION IS LINE SEQUENTIAL.
+ 
+DATA DIVISION.
+FILE SECTION.
+FD InputFile.
+01 TreeLine PIC X(31).
+WORKING-STORAGE SECTION.
+01 END-OF-FILE PIC Z(1).
+01 COUNTERS.
+      05 POSITION-TRACKER OCCURS 4 TIMES PIC 9(2).
+      05 TREES-SEEN OCCURS 4 TIMES PIC 9(3).
+      05 INCR OCCURS 4 TIMES PIC 9(1).
+01 OFFSET PIC 9(4).
+01 Y-OFFSET PIC 9(4).
+01 I PIC 9(1) VALUE 1.
+01 RESULT PIC 9(12).
+
+PROCEDURE DIVISION.
+ Begin.
+
+    MOVE 1 TO INCR(1)
+    MOVE 3 TO INCR(2)
+    MOVE 5 TO INCR(3)
+    MOVE 7 TO INCR(4)
+    OPEN INPUT InputFile
+
+    READ InputFile
+       AT END MOVE 1 TO END-OF-FILE
+    END-READ
+    
+    IF END-OF-FILE = 1
+      CLOSE InputFile
+    END-IF
+
+    MOVE 0 TO END-OF-FILE.
+
+    PERFORM UNTIL END-OF-FILE = 1
+       *> Calc the tree values for the constant-incrementing X trees
+       MOVE 1 TO I
+       PERFORM UNTIL I > 4
+           COMPUTE OFFSET = FUNCTION SUM(POSITION-TRACKER(I), 1)
+           IF TreeLine (OFFSET:1) = "#"
+               ADD +1 TO TREES-SEEN(I)
+           END-IF
+           ADD INCR(I) TO POSITION-TRACKER(I)
+           COMPUTE POSITION-TRACKER(I) = FUNCTION MOD(POSITION-TRACKER(I), 31)
+           ADD +1 TO I
+       END-PERFORM
+
+       
+       COMPUTE OFFSET = FUNCTION MOD(Y-OFFSET, 2)
+
+       IF OFFSET = 0
+           DIVIDE Y-OFFSET BY 2 GIVING OFFSET
+           COMPUTE OFFSET = FUNCTION MOD(OFFSET, 31)
+           COMPUTE OFFSET = FUNCTION SUM(OFFSET, 1)
+           IF TreeLine (OFFSET:1) = "#"
+               ADD +1 TO RESULT
+           END-IF
+       END-IF
+       ADD +1 TO Y-OFFSET
+       
+       READ InputFile
+          AT END MOVE 1 TO END-OF-FILE
+       END-READ
+    END-PERFORM
+    CLOSE InputFile
+    
+    MOVE 1 TO I
+    PERFORM UNTIL I > 4
+       MULTIPLY RESULT BY TREES-SEEN(I) GIVING RESULT
+       ADD +1 TO I
+    END-PERFORM
+       
+    DISPLAY "Hello, December Third"
+    DISPLAY "Total Trees:" SPACE RESULT
+ STOP RUN.
+
+END PROGRAM hello.

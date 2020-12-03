@@ -1,8 +1,14 @@
-run: main
-	./main
+run2: part2
+	./part2
 
-main:
-	cobc -free -x -o main part1.cob
+run: part1
+	./part1
+
+part1:
+	cobc -free -x -o part1 part1.cob
+
+part2:
+	cobc -free -x -o part2 part2.cob
 
 clean:
-	rm main
+	rm part1 part2; true
