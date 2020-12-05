@@ -4,6 +4,8 @@ Goal is to use a new language every day, [alphabetically](https://en.wikipedia.o
 
 ### Dec 1st: [Ada](https://www.adacore.com/get-started)
 
+run with `make run` (I didn't save two discrete files for this one, would have to revert to the older commit to make both available, so it'll only give the solution to part two by default)
+
 Using gnat-2020-20200429-x86_64-darwin-bin.dmg installed to `~/opt/GNAT/2020/bin/`
 
 Starting with tutorial from https://riptutorial.com/ada
@@ -23,6 +25,12 @@ make run
 
 
 ### Dec 2nd: Bash
+
+run with
+```
+./part1.sh
+./part2.sh
+```
 
 Lines are formatted as `I-J C: password` which could also be formatted as a regexp matcher like `C{I-J}` and passed through to a grep? To make it easier it'd be a good idea to sort the strings in the input as well
 
@@ -83,6 +91,16 @@ Part Two can use some of the same principles, but going to actually write a bash
 
 ### Dec 3rd: COBOL
 
+run with 
+
+```
+# part 1
+make run
+
+# part 2
+make run2
+```
+
 I am probably going to regret this decision.
 
 Going to start with a simple reading file line-by-line https://stackoverflow.com/questions/49444910/reading-cobol-file-line-by-line-seperated-by-new-line-character
@@ -104,6 +122,14 @@ Mostly did things right, except in trying to simplify the code I removed a block
 Actually ended up not being too tough of a language to work with, kind of liked some of the explicit structures. Docs online are kind of sparse. Wouldn't want to maintain a real-world system built on it.
 
 ### Dec 4th: [Dart](https://dart.dev/)
+
+run with 
+```
+dart run part1.dart
+dart run part2.dart
+```
+
+To install
 
 ```
 brew tap dart-lang/dart
@@ -131,6 +157,12 @@ Parsing int https://dev.to/wangonya/how-you-turn-a-string-into-a-number-or-vice-
 
 ### Dec 5th: [Elixir](https://elixir-lang.org/)
 
+run with 
+```
+elixir part1.exs
+elixir part2.exs
+```
+
 Time to do some binary searching with Elixir. As usual, need to start with reading a file line by line https://joyofelixir.com/11-files/ except that expects to be using an iex prompt and I want a binary. looks like I can do that with the `elixir` command https://blog.mclaughlinsoftware.com/2020/05/20/fedora-exlixir-install/
 
 Going to have to define a function to handle the binary search https://www.tutorialspoint.com/elixir/elixir_functions.htm might as well try using pattern matching https://elixirschool.com/en/lessons/basics/functions/
@@ -146,3 +178,11 @@ For part two my idea is to write each of the rows into a map[row]->[sorted cols]
 So I'll need to be able to sort https://rosettacode.org/wiki/Sort_three_variables#Elixir and more importantly, to figure out how to build out that map. Here's some good info on maps https://joyofelixir.com/10-maps/. 
 
 because the value won't be set, going to need to do some pattern matching on the initial append https://www.tutorialspoint.com/elixir/elixir_decision_case.htm. Can't use pipe merging since we're adding new keys, so I'll use `Map.merge`
+
+I think this solution would work, but I'm going to change it to use only seat IDs, which turns out to be far simpler. That said, I was almost at the right answer with the map approach, I had the candidates as one of rows `64, 104 or 6` and the possible columns were respectively
+```
+#MapSet<[5]>
+#MapSet<[1, 2, 3, 4, 5, 6, 7]>
+#MapSet<[0, 1, 2]>
+```
+(the actual row/column of the result was row 64, seat 5)

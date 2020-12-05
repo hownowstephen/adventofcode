@@ -15,7 +15,6 @@ defmodule Seating do
 end
 
 seats = File.stream!("input.txt") |> Enum.map(&String.trim/1) |> Enum.map(&Seating.getID/1) |> Enum.sort
-
 mySeat = Enum.reduce(seats, [], fn(element, acc) ->
     case {Enum.member?(seats, element+1), Enum.member?(seats, element+2)} do
         {false, true} -> [ element+1 | acc ]
