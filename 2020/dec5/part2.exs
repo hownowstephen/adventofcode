@@ -1,15 +1,11 @@
 IO.puts("Hello, December 5th")
 
 defmodule Seating do
-    def getSeat(input) do
+    def getID(input) do
         {r, c} = Enum.split(String.graphemes(input), 7)
         row = Enum.reduce(r, %{:s=>0, :e=>127}, &Seating.reducer/2)
         col = Enum.reduce(c, %{:s=>0, :e=>7}, &Seating.reducer/2)
-        {row.s, col.s}
-    end
-
-    def seatID(row, col) do
-        row*8+col
+        row.s*8+col.s
     end
 
     def reducer("F", %{:s=>s, :e=>e}), do: %{s: s, e: floor(s + (e-s)/2)}
@@ -18,24 +14,12 @@ defmodule Seating do
     def reducer("R", %{:s=>s, :e=>e}), do: %{s: floor(s + (e-s)/2)+1, e: e}
 end
 
-seats = File.stream!("input.txt") |> Enum.map(&String.trim/1) |> Enum.map(&Seating.getSeat/1)
+seats = File.stream!("input.txt") |> Enum.map(&String.trim/1) |> Enum.map(&Seating.getID/1) |> Enum.sort
 
-seatmap = Enum.reduce(seats, %{}, fn({r,c}, acc) ->
-    case Map.get(acc, r) do
-        nil -> Map.merge(acc, %{r => [c]})
-        _ -> %{acc | r => Enum.sort([c | acc[r]])}
+mySeat = Enum.reduce(seats, [], fn(element, acc) ->
+    case {Enum.member?(seats, element+1), Enum.member?(seats, element+2)} do
+        {false, true} -> [ element+1 | acc ]
+        _ -> acc
     end
 end)
-
-fullRow = MapSet.new([0, 1, 2, 3, 4, 5, 6, 7])
-
-Enum.reduce(seatmap, [], fn ({row, cols}, acc) -> 
-    case {row, cols} do
-        {_, [0, 1, 2, 3, 4, 5, 6, 7]} -> acc
-        _ -> [row | acc]
-    end
-end) |> Enum.map(fn(value) ->
-    m =MapSet.new(Map.get(seatmap, value))
-    d = MapSet.difference(fullRow, m)
-    IO.inspect d
-end)
+IO.inspect mySeat
