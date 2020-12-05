@@ -128,3 +128,15 @@ nevermind, used the standard dart docs which are quite good https://api.dart.dev
 
 Part two should just be a list of checks, gotta do some parsing!
 Parsing int https://dev.to/wangonya/how-you-turn-a-string-into-a-number-or-vice-versa-with-dart-392h but that raises an exception, so I can have my parse func catch exceptions and bail out
+
+### Dec 5th: [Elixir](https://elixir-lang.org/)
+
+Time to do some binary searching with Elixir. As usual, need to start with reading a file line by line https://joyofelixir.com/11-files/ except that expects to be using an iex prompt and I want a binary. looks like I can do that with the `elixir` command https://blog.mclaughlinsoftware.com/2020/05/20/fedora-exlixir-install/
+
+Going to have to define a function to handle the binary search https://www.tutorialspoint.com/elixir/elixir_functions.htm might as well try using pattern matching https://elixirschool.com/en/lessons/basics/functions/
+
+Or maybe just an enum.reduce can work here https://elixirschool.com/en/lessons/basics/enum/ if we can convert the string to a list, which we can using `String.graphemes/1` https://elixir-examples.github.io/examples/string-to-list-of-characters
+
+Still need to sort out some struct knowledge though, because I need a struct to track position https://micaelnussbaumer.com/2019/05/11/pattern-matching-in-elixir.html  or maybe just a map? https://www.tutorialspoint.com/elixir/elixir_maps.htm
+
+Getting there, managed to get a reducer, once I did some casting of floats https://hexdocs.pm/elixir/master/Float.html
