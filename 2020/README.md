@@ -140,3 +140,9 @@ Or maybe just an enum.reduce can work here https://elixirschool.com/en/lessons/b
 Still need to sort out some struct knowledge though, because I need a struct to track position https://micaelnussbaumer.com/2019/05/11/pattern-matching-in-elixir.html  or maybe just a map? https://www.tutorialspoint.com/elixir/elixir_maps.htm
 
 Getting there, managed to get a reducer, once I did some casting of floats https://hexdocs.pm/elixir/master/Float.html
+
+For part two my idea is to write each of the rows into a map[row]->[sorted cols] and then check for whichever one does not match [0...7] and that'll be my row and column
+
+So I'll need to be able to sort https://rosettacode.org/wiki/Sort_three_variables#Elixir and more importantly, to figure out how to build out that map. Here's some good info on maps https://joyofelixir.com/10-maps/. 
+
+because the value won't be set, going to need to do some pattern matching on the initial append https://www.tutorialspoint.com/elixir/elixir_decision_case.htm. Can't use pipe merging since we're adding new keys, so I'll use `Map.merge`
