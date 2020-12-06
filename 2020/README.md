@@ -186,3 +186,30 @@ I think this solution would work, but I'm going to change it to use only seat ID
 #MapSet<[0, 1, 2]>
 ```
 (the actual row/column of the result was row 64, seat 5)
+
+### Dec 6th: [F#](https://fsharp.org/)
+
+to run
+```
+
+```
+
+```
+brew install --cask dotnet-sdk
+```
+
+getting started using the tutorial for osx https://fsharp.org/use/mac/
+
+reading a file https://stackoverflow.com/questions/2365527/how-read-a-file-into-a-seq-of-lines-in-f, I chose to use File.ReadLines, seems the most straightforward. Also imports use the `open ImportName` syntax
+
+Now to consult the Expert F# 4.0. Amazingly the first example is kind of exactly what we need for this problem. The idea is to create a set for each group and then sum the set lengths
+
+Turns out to be very similar to Elixir, maybe I should've done FORTRAN or something. Anyway, here's the docs on sets http://www.visualfsharp.com/fsharp/examples/HashSet.htm and splitting strings into characters https://stackoverflow.com/questions/45879292/how-do-i-split-a-string-into-a-list-of-chars-in-f-sharp
+
+Useful format verbs `%O` gives the ToString() which for `HashSet...` is just the type. `%A` is for printing complex types, and in this case prints out the values in my set https://www.c-sharpcorner.com/article/printing-and-formatting-outputs-in-fsharp/
+
+Next we need to handle them as groups https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/conditional-expressions-if-then-else
+
+Got 6147 and it was WRONG because I forgot to add the final length of my set to the total. whoops!
+
+Part two should be a one line change, changing from the union of all sets to the intersection. nice!
