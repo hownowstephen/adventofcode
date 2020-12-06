@@ -191,9 +191,11 @@ I think this solution would work, but I'm going to change it to use only seat ID
 
 to run
 ```
-
+dotnet fsi part1.fsx
+dotnet fsi part2.fsx
 ```
 
+Installing the dotnet core with
 ```
 brew install --cask dotnet-sdk
 ```
@@ -210,6 +212,20 @@ Useful format verbs `%O` gives the ToString() which for `HashSet...` is just the
 
 Next we need to handle them as groups https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/conditional-expressions-if-then-else
 
-Got 6147 and it was WRONG because I forgot to add the final length of my set to the total. whoops!
+Got 6147 and it was WRONG because I forgot to add the final length of my set to the total. whoops! I double checked my work in the python cli and then worked this out
 
-Part two should be a one line change, changing from the union of all sets to the intersection. nice!
+```
+count = 0
+for group in open("input.txt").read().split("\n\n"):
+    count += 
+
+print(count)
+```
+
+could even be a oneliner
+```
+print sum(len({x: 1 for x in group if x != "\n"}) for group in open("input.txt").read().split("\n\n"))
+```
+
+
+Part two should be a one line change, changing from the union of all sets to the intersection. nice! I was wrong, because I was doing it line-by-line, I needed to add some tracking to know which line I was on, since the _first_ line of the group needed to be a union, and subsequent needed to be intersections. I tried just doing an if block with `answers.Count = 0` and got the wrong result, because it meant that if I was partway through a group and already there was no intersection, it was applying that block, instead of doing so only once per group
