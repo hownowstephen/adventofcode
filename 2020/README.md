@@ -229,3 +229,38 @@ print sum(len({x: 1 for x in group if x != "\n"}) for group in open("input.txt")
 
 
 Part two should be a one line change, changing from the union of all sets to the intersection. nice! I was wrong, because I was doing it line-by-line, I needed to add some tracking to know which line I was on, since the _first_ line of the group needed to be a union, and subsequent needed to be intersections. I tried just doing an if block with `answers.Count = 0` and got the wrong result, because it meant that if I was partway through a group and already there was no intersection, it was applying that block, instead of doing so only once per group
+
+
+### Dec 7th: [Groovy](https://groovy-lang.org/)
+
+Diving into the JVM for an adventure in trees
+
+to run
+```
+groovy part1.groovy
+groovy part2.groovy
+```
+
+installing groovy on OSX
+
+```
+brew install groovy
+export GROOVY_HOME=/usr/local/opt/groovy/libexec
+```
+
+starting off with a hello world since I'm not 100% on what groovy looks like https://code-maven.com/groovy-hello-world turns out it can be pretty simple, at least. 
+
+Can steal some ideas for idiomatic trees from https://codereview.stackexchange.com/questions/99245/is-my-binary-tree-correct, but first lets learn how to parse a file https://subscription.packtpub.com/book/application_development/9781849519366/4/ch04lvl1sec45/reading-a-text-file-line-by-line and then do some string parsin'
+
+Actually might be not so fun / efficient to do this as a tree, it's more like a directed graph. Started by thinking about this one https://yongouyang.blogspot.com/2013/04/solving-farmer-wolf-goat-cabbage-riddle.html but I think my basic idea is going to be:
+
+- for each line in the file, add a list of edges to the graph
+- to find the parents of the gold bag you find all edges pointing at gold, then all pointing at those outer bags until you run outs
+
+Appending to an array can take many forms https://stackoverflow.com/questions/44214845/how-to-append-to-an-array-in-groovy, and constructors are java-y https://stackoverflow.com/questions/2043218/groovy-constructors. 
+
+Kept getting `push() is applicable for argument types` which was because I was using an Array (`Edge[]`) instead of a List `List<Edge>` per https://stackoverflow.com/questions/59416532/using-add-or-push-to-add-items-to-an-array-in-groovy
+
+time for some regex parsing to get the bag details out https://e.printstacktrace.blog/groovy-regular-expressions-the-definitive-guide/ and looks like the number can be pulled out as integer pretty easily https://stackoverflow.com/questions/1713481/converting-a-string-to-int-in-groovy
+
+Grab the result as a recursive `Set` and we're off to the races. Also can use the `as Set` operator to cast a list into a set. Neat
