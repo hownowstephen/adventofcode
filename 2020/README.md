@@ -233,12 +233,11 @@ Part two should be a one line change, changing from the union of all sets to the
 
 ### Dec 7th: [Groovy](https://groovy-lang.org/)
 
-Diving into the JVM for an adventure in trees
+Diving into the JVM for an adventure in ~trees~ graphs (sort of)
 
-to run
+to run (both parts)
 ```
-groovy part1.groovy
-groovy part2.groovy
+groovy bags.groovy
 ```
 
 installing groovy on OSX
@@ -265,4 +264,4 @@ time for some regex parsing to get the bag details out https://e.printstacktrace
 
 Grab the result as a recursive `Set` and we're off to the races. Also can use the `as Set` operator to cast a list into a set. Neat
 
-Part two is about doing the same but sort of in reverse
+Part two is about doing the same but sort of in reverse. And took less than 3 minutes. Thankfully the dataset isn't recursive, because I definitely did not account for that in this part (although I guess if it was, then the answer would've been infinity, so makes sense).
