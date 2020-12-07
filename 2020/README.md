@@ -264,3 +264,5 @@ Kept getting `push() is applicable for argument types` which was because I was u
 time for some regex parsing to get the bag details out https://e.printstacktrace.blog/groovy-regular-expressions-the-definitive-guide/ and looks like the number can be pulled out as integer pretty easily https://stackoverflow.com/questions/1713481/converting-a-string-to-int-in-groovy
 
 Grab the result as a recursive `Set` and we're off to the races. Also can use the `as Set` operator to cast a list into a set. Neat
+
+Part two is about doing the same but sort of in reverse

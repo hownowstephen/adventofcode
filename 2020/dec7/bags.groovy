@@ -26,6 +26,17 @@ class BagGraph {
         }
         return result
     }
+
+    Integer part2TotalContents(String colour) {
+        def count = 0
+        this.bags.each { bag ->
+            if(bag.outer == colour){
+                count += bag.count
+                count += bag.count * part2TotalContents(bag.inner)
+            }
+        }
+        return count
+    }
 }
 
 import java.util.regex.Pattern
@@ -60,3 +71,6 @@ input.eachLine { String line ->
 
 def part1 = graph.part1OuterBags("shiny gold").size();
 println "part one: $part1"
+
+def part2 = graph.part2TotalContents("shiny gold")
+println "part two: $part2"
