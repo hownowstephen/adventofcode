@@ -265,3 +265,28 @@ time for some regex parsing to get the bag details out https://e.printstacktrace
 Grab the result as a recursive `Set` and we're off to the races. Also can use the `as Set` operator to cast a list into a set. Neat
 
 Part two is about doing the same but sort of in reverse. And took less than 3 minutes. Thankfully the dataset isn't recursive, because I definitely did not account for that in this part (although I guess if it was, then the answer would've been infinity, so makes sense).
+
+### Dec 8th: Haxe
+
+to run
+```
+haxe --main Part1 --interp
+haxe --main Part2 --interp
+```
+
+Installing haxe on pop for my first solve on the meerkat
+
+```
+sudo add-apt-repository ppa:haxe/releases -y
+sudo apt-get update
+sudo apt-get install haxe -y
+mkdir ~/haxelib && haxelib setup ~/haxelib
+```
+
+and starting with the tutorial at https://haxe.org/manual/introduction-hello-world.html
+
+should be a straightforward solve, the idea is to keep a running list of visited lines while iterating through the file. Going to need a couple arrays https://api.haxe.org/Array.html and some string parsing https://api.haxe.org/String.html and to be able to convert string to int https://api.haxe.org/Std.html
+
+might be able to use pattern matching to run commands https://haxe.org/manual/lf-pattern-matching-variable-capture.html
+
+that worked a treat and after researching some logging https://haxe.org/manual/debugging-trace-log.html we have a solution to part one! 
