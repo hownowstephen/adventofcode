@@ -290,3 +290,11 @@ should be a straightforward solve, the idea is to keep a running list of visited
 might be able to use pattern matching to run commands https://haxe.org/manual/lf-pattern-matching-variable-capture.html
 
 that worked a treat and after researching some logging https://haxe.org/manual/debugging-trace-log.html we have a solution to part one! 
+
+Part two. The naive solution would be to backtrack on the first failed jmp and swap it, but that didn't work. I think the most straightforward approach will be instead to:
+- load the entire program into a list
+- try substitutions incrementally
+
+going to do this by tracking which subsitutions we've tried and running the program inside a loop until it reaches the end
+
+after a few false starts (tried tracking just the last attempt cursor, but since cursors jump around it wasn't able to capture what I actaully wanted to know -- which replacements have been made already and failed) got to a solution that works by accumulating the attempts in another array and using guards to check for a fixable moment in the switch. Useful bit of syntax, this pattern matching stuff
