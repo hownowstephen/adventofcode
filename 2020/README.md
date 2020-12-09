@@ -266,7 +266,7 @@ Grab the result as a recursive `Set` and we're off to the races. Also can use th
 
 Part two is about doing the same but sort of in reverse. And took less than 3 minutes. Thankfully the dataset isn't recursive, because I definitely did not account for that in this part (although I guess if it was, then the answer would've been infinity, so makes sense).
 
-### Dec 8th: Haxe
+### Dec 8th: [Haxe](https://haxe.org)
 
 to run
 ```
@@ -298,3 +298,26 @@ Part two. The naive solution would be to backtrack on the first failed jmp and s
 going to do this by tracking which subsitutions we've tried and running the program inside a loop until it reaches the end
 
 after a few false starts (tried tracking just the last attempt cursor, but since cursors jump around it wasn't able to capture what I actaully wanted to know -- which replacements have been made already and failed) got to a solution that works by accumulating the attempts in another array and using guards to check for a fixable moment in the switch. Useful bit of syntax, this pattern matching stuff
+
+### Dec 9th: [Io](https://iolanguage.org)
+
+to run 
+```
+io part1.io
+io part2.io
+```
+
+This one's a bit more obscure, so not available in package managers. Going to have to grab a binary or compile from source https://github.com/IoLanguage/io
+
+ran into 
+```
+[ 46%] Building C object libs/iovm/CMakeFiles/iovmall.dir/source/IoSystem.c.o
+/home/stephen/Downloads/io/libs/iovm/source/IoSystem.c:26:11: fatal error: sys/sysctl.h: No such file or directory
+   26 | # include <sys/sysctl.h>
+```
+
+which is enough for me to say whatever, I'll use a prebuilt binary
+
+lots of sample code available in their source repo https://github.com/IoLanguage/io/tree/master/samples that is nice
+
+as usual, lets start with reading a file line by line http://iolanguage.org/guide/guide.html#Primitives-File -- not easy to find docs for io, so going to be a bit more of an exploratory day I guess. Here's how to readlines https://github.com/IoLanguage/io/blob/fa791321d1921f0feef2f35ae0418bab0a662436/libs/iovm/tests/correctness/FileTest.io and then iterating over them is as simple as http://iolanguage.org/guide/guide.html#Primitives-List `lines foreach`
