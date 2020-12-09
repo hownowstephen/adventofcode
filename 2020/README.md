@@ -321,3 +321,5 @@ which is enough for me to say whatever, I'll use a prebuilt binary
 lots of sample code available in their source repo https://github.com/IoLanguage/io/tree/master/samples that is nice
 
 as usual, lets start with reading a file line by line http://iolanguage.org/guide/guide.html#Primitives-File -- not easy to find docs for io, so going to be a bit more of an exploratory day I guess. Here's how to readlines https://github.com/IoLanguage/io/blob/fa791321d1921f0feef2f35ae0418bab0a662436/libs/iovm/tests/correctness/FileTest.io and then iterating over them is as simple as http://iolanguage.org/guide/guide.html#Primitives-List `lines foreach`
+
+not much to note today, since it's all just directly from the iolanguage.org docs -- I definitely am not writing idiomatic io, kind of feels like I just shoved my logic in how I wanted it. But not feeling up to a refactor though, and it works!
