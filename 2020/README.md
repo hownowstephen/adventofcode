@@ -323,3 +323,33 @@ lots of sample code available in their source repo https://github.com/IoLanguage
 as usual, lets start with reading a file line by line http://iolanguage.org/guide/guide.html#Primitives-File -- not easy to find docs for io, so going to be a bit more of an exploratory day I guess. Here's how to readlines https://github.com/IoLanguage/io/blob/fa791321d1921f0feef2f35ae0418bab0a662436/libs/iovm/tests/correctness/FileTest.io and then iterating over them is as simple as http://iolanguage.org/guide/guide.html#Primitives-List `lines foreach`
 
 not much to note today, since it's all just directly from the iolanguage.org docs -- I definitely am not writing idiomatic io, kind of feels like I just shoved my logic in how I wanted it. But not feeling up to a refactor though, and it works!
+
+### Dec 10th [Julia](https://julialang.org)
+
+to run
+```
+julia part1.jl
+julia part2.jl
+```
+
+Today's puzzle starts with what seems to be a simple-ish sorting problem, so back I go to parsing inputs from a file. 
+
+Julialang site recommends installing their latest binary directly, but I want to make it easy on myself to roll back, so I'll install whatever is in apt `sudo apt install julia` should do the trick
+
+Reading the file is a oneliner https://stackoverflow.com/questions/58169711/how-to-read-a-file-line-by-line-in-julia and then converting to int using parse https://www.geeksforgeeks.org/string-to-number-conversion-in-julia/
+
+docs are pretty good, using https://docs.julialang.org/en/v1/base/collections/#General-Collections fairly extensively
+
+having some trouble with variable scoping https://docs.julialang.org/en/v1/manual/variables-and-scoping/
+```
+Hello, December 10th
+ERROR: LoadError: UndefVarError: ones not defined
+Stacktrace:
+ [1] top-level scope at /home/stephen/code/hownowstephen/adventofcode/2020/dec10/part1.jl:16
+ [2] include(::Module, ::String) at ./Base.jl:377
+ [3] exec_options(::Base.JLOptions) at ./client.jl:288
+ [4] _start() at ./client.jl:484
+in expression starting at /home/stephen/code/hownowstephen/adventofcode/2020/dec10/part1.jl:12
+```
+
+from the scoping rules you have to determine which scope you're applying to when doing the += so `global x += 1` - interesting way to avoid implicit shadowing problems!
