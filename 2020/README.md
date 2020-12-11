@@ -385,3 +385,20 @@ Here's a new idea:
 - multiply results
 
 so it works, except that for the actual input file I get a value 2x below the winning one (which I already submitted) and that behaviour only happens for the actual input. To be revisited
+
+### Dec 11th: [Kotlin](https://kotlinlang.org/)
+
+to run
+```
+kotlinc -script part1.kts
+kotlinc -script part2.kts
+```
+
+Needs JRE and kotlin command line tools https://kotlinlang.org/docs/tutorials/command-line.html which I don't want to keep around since I'm already not liking the docs -- so we'll go with just keeping it in downloads and setting the path
+
+```
+sudo apt-get install openjdk-15-jre-headless
+export PATH=$PATH:~/Downloads/kotlin-native-linux-1.4.21/bin
+```
+
+for "A modern programming language that makes developers happier." I've not had any success even compiling on linux, and I don't feel happy. Going to move this over to the macbook I guess
