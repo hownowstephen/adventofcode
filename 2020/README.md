@@ -353,3 +353,35 @@ in expression starting at /home/stephen/code/hownowstephen/adventofcode/2020/dec
 ```
 
 from the scoping rules you have to determine which scope you're applying to when doing the += so `global x += 1` - interesting way to avoid implicit shadowing problems!
+
+for part two my initial hypothesis is that for every element after the third, I can multiply by two or three the result depending on whether the preceding 2 elements are necessary. This didn't really work right, though I'm not convinced it is entirely a wrong strat
+
+my new idea is counting which adapters are unnecessary and then doing something mathematical with that result
+
+that's also wrong since removing an element can mean others can't be removed, so I think it'll have to be a recursive calculation, which means i'll need a function https://docs.julialang.org/en/v1/manual/functions/
+
+tried that but my implementation was pretty awful https://discourse.julialang.org/t/how-to-merge-arrays-in-julia/51520/5 basically recursed every time that it found an optional value, which seems to be way too intensive on the system. So back to the drawing board, my brain just is not lightbulbing on this one
+
+Did some math on paper, basically for any spread of numbers, assuming all numbers are unique, the replacement set will be of maximum length 4, and for that set there are 4 combinations. For length 3 it is 2 combos and 2 or 1 has only one combination
+
+That didn't work. I'm sure there's a faster solution, but what I've got now that works is just a recursive func that works but is mega inefficient. So now I have something I can optimize anyway. 
+
+```
+Allocations: 3486627628 (Pool: 3486627572; Big: 56); GC: 37217
+```
+
+yep that's not going to fly (didn't even finish running)
+
+so the approach there was
+1. find the first element you can remove
+2. run same func on a list without that element
+3. add 1 for every run.
+4. which since it already says there's more than a trillion valid ways, clearly I will run into some Problems trying to run all trillion
+
+Here's a new idea:
+- start by finding a run of numbers
+- determine number of permutations of that group
+- continue to next
+- multiply results
+
+so it works, except that for the actual input file I get a value 2x below the winning one (which I already submitted) and that behaviour only happens for the actual input. To be revisited
