@@ -401,4 +401,18 @@ sudo apt-get install openjdk-15-jre-headless
 export PATH=$PATH:~/Downloads/kotlin-native-linux-1.4.21/bin
 ```
 
-for "A modern programming language that makes developers happier." I've not had any success even compiling on linux, and I don't feel happy. Going to move this over to the macbook I guess
+for "A modern programming language that makes developers happier." I've not had any success even compiling on linux, and I don't feel happy. Going to move this over to the macbook I guess.
+
+And doing a quick `brew install kotlin` worked, so we're off to the races
+
+Starting with reading the file into a 2d array https://www.baeldung.com/kotlin-read-file which for whatever reason leaves off the import. Also looks like imports have to be at top of file
+
+No need to handle the data as strings though, because we're just doing pattern matching based on adjacent squares. Very game of life. Need to read the file into a list, going to use a MutableList I think https://kotlinlang.org/docs/reference/collections-overview.html
+
+And then need a function that does the transform, and one that does the compare https://kotlinlang.org/docs/reference/functions.html
+
+had to do some learning about initializing types https://stackoverflow.com/questions/45122521/how-to-create-a-fixed-size-intarray-and-initializing-the-array-later-in-kotlin but aside from that and the compare function needing fixing, nearly there
+
+for comparison https://discuss.kotlinlang.org/t/bytearray-comparison/1689 looks like easiest is to go non-idiomatic and use java Arrays.equals. Otherwise I probably would need to zip or iterate, either of which feels no better.
+
+Onto part two which should just be a minor-ish modification to the mapper, instead of doing the 3x3 nested for loop, going to send out feelers in all directions until we're out of bounds or hit a person
