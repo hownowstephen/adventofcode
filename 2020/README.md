@@ -416,3 +416,7 @@ had to do some learning about initializing types https://stackoverflow.com/quest
 for comparison https://discuss.kotlinlang.org/t/bytearray-comparison/1689 looks like easiest is to go non-idiomatic and use java Arrays.equals. Otherwise I probably would need to zip or iterate, either of which feels no better.
 
 Onto part two which should just be a minor-ish modification to the mapper, instead of doing the 3x3 nested for loop, going to send out feelers in all directions until we're out of bounds or hit a person
+
+using maxOf https://www.codevscolor.com/kotlin-maxof-find-maximum-value to figure out the max distance you'd need to plausibly go on a diagonal
+
+not to outdo myself from earlier, but I again misread the prompt. we're only checking the first seat the person sees https://stackoverflow.com/questions/46401879/boolean-int-conversion-in-kotlin going to change my func to return a value we can accumulate
