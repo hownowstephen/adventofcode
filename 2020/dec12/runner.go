@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	cmd := exec.Command("lci", "./part1.lol")
+	cmd := exec.Command("lci", os.Args[1])
 
 	stdin, err := cmd.StdinPipe()
 	if err != nil {

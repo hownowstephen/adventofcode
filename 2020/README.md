@@ -449,3 +449,5 @@ To end the program just send in a blank line
 I needed a way to encapsulate the state, which I used a `BUKKIT` (array) for. Or the docs all say array, but it is definitely a struct, exactly what I need for state. Initially I had hoped that even without any file IO, I'd be able to hardcode all the commands into the array, but since it's a struct that was a no-go. Anyways, then it was matter of defining the logic and doing some fun maths
 
 Once I had the program working for the sample input (thankfully it was short) I wrote a quick go program that automates the passing of the input to the lolcode program, since there's 790 commands in the input file and I am not typing 2x that by hand.
+
+The next one we don't actuall care where the ship is pointed, so I just need to maintain two points, the ship and the waypoint. Did some math on paper as to how we translate the points when turning (it's just swapping the values and `-1*Y` for left and `-1*X` for right). Made a mistake in the first attempt because I was always turning once, needed to turn `BIGNESS/90` times. Looping on that and we're all done
