@@ -420,3 +420,32 @@ Onto part two which should just be a minor-ish modification to the mapper, inste
 using maxOf https://www.codevscolor.com/kotlin-maxof-find-maximum-value to figure out the max distance you'd need to plausibly go on a diagonal
 
 not to outdo myself from earlier, but I again misread the prompt. we're only checking the first seat the person sees https://stackoverflow.com/questions/46401879/boolean-int-conversion-in-kotlin going to change my func to return a value we can accumulate
+
+### Dec 12th: [LOLCODE](http://www.lolcode.org/)
+
+to run
+```
+go run runner.go ./part1.lol
+go run runner.go ./part2.lol
+```
+
+This is going to be a weird one, as I'm going to have to type the navigation instructions one-by-one I think? I'll see if I can get the sample working and then decide if there's hope
+
+There isn't good enough array support to use one of those, I don't think (I'll look at that later) but for now I'll start with just reading from user input in an infinite loop until the input is blank I guess. Going to use `lci` since it seems to be the most well-defined interpreter
+
+```
+git clone https://github.com/justinmeza/lci.git
+cd lci
+cmake .
+make && sudo make install
+```
+
+Whew, had to do some fun gymnastics for this one but it has been mega fun. No links to docs really, everything I needed was in https://www.tutorialspoint.com/lolcode/
+
+There's no file IO, and no string manipulation. That means in order to make it work I had to do a bit of input doctoring - it accepts the first character of each line, followed by the numeric value following, and then runs the `IMTERPRET` function on those.
+
+To end the program just send in a blank line
+
+I needed a way to encapsulate the state, which I used a `BUKKIT` (array) for. Or the docs all say array, but it is definitely a struct, exactly what I need for state. Initially I had hoped that even without any file IO, I'd be able to hardcode all the commands into the array, but since it's a struct that was a no-go. Anyways, then it was matter of defining the logic and doing some fun maths
+
+Once I had the program working for the sample input (thankfully it was short) I wrote a quick go program that automates the passing of the input to the lolcode program, since there's 790 commands in the input file and I am not typing 2x that by hand.
