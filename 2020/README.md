@@ -451,3 +451,25 @@ I needed a way to encapsulate the state, which I used a `BUKKIT` (array) for. Or
 Once I had the program working for the sample input (thankfully it was short) I wrote a quick go program that automates the passing of the input to the lolcode program, since there's 790 commands in the input file and I am not typing 2x that by hand.
 
 The next one we don't actuall care where the ship is pointed, so I just need to maintain two points, the ship and the waypoint. Did some math on paper as to how we translate the points when turning (it's just swapping the values and `-1*Y` for left and `-1*X` for right). Made a mistake in the first attempt because I was always turning once, needed to turn `BIGNESS/90` times. Looping on that and we're all done
+
+### Dec 13: [Mercury](http://www.mercurylang.org/)
+
+Skipped haskell on the 8th so time to circle back to a haskell-like. Unfortunately it looks like mercury is a bit of a pain to install, so going to have to wait on a compiler. In the meantime will get started with figuring out some basics I guess!
+
+This should be a good starting point https://mercury-in.space/crash.html
+
+I installed just the bootstrap version of mercury and will see if that's enough for solving a toy problem like this.
+
+Reading files https://rosettacode.org/wiki/Read_entire_file#Mercury and what else is available in the io module https://mercurylang.org/information/doc-release/mercury_library/io.html
+
+So I think the basic math here is we want the number in the list which, when divided by our arrival time has the smallest remainder. Possibly just min(busnum % interval) * interval
+
+I think since we only have two lines I can do this with reading each line and then parsing them. Pulled some ideas from https://rosettacode.org/wiki/Guess_the_number#Mercury to how to implement, and have it pulling
+
+Looks like when things are `semidet` you need to use the https://mercury-in.space/crash.html#org793ecc9 `( this_might_fail -> it_succeeded; it_failed )` syntax, like with `string.to_int`. Failed because the string was unchomped, and boy am I glad to see `string.chomp` - it's been awhile old friend
+
+Not sure yet how to factor this so going to be stuck with a deep nesting structure I guess
+
+Going to take a break from the string parsing part to work on the actual logic with hardcoded data. Might just end up skipping file parsing altogether since it's a major pain. Figured out how to use foldl and now the plan is to use `foldl2` (dual accumulator foldl) to track both the lowest modulo I've seen and the result that gives.
+
+Spent quite awhile fiddling with defining predicates and sorted out a way to factor out my calculation into one, which means I can probably actually do my read-from file with where I'm at now.
