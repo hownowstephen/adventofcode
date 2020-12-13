@@ -27,16 +27,6 @@ earliestBus(T, Lines, Result) :-
 
 main(!IO) :-
     io.write_string("Hello, December 13th\n", !IO),
-
-    % Time = 939,
-    % io.format("Time: %d\n", [i(Time)], !IO),
-
-    % Lines = [7, 13, 59, 31, 19],
-
-    % earliestBus(Time, Lines, Result),
-
-    % io.format("Result: %d\n", [i(Result)], !IO).
-    
     io.open_input("input.txt", OpenResult, !IO),
     (
         OpenResult = ok(File),
