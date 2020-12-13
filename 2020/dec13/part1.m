@@ -5,88 +5,75 @@
 :- implementation.
 :- import_module int, string, list.
 
-:- pred calc(int::in, list(int)::in, int::out) is det.
-calc(T, Lines, Result) :-
+% calculates the min(earliest wait time * the line number) for a list of bus lines
+:- pred earliestBus(int::in, list(string)::in, int::out) is det.
+earliestBus(T, Lines, Result) :-
      % two accumulators so we can keep track of which is the right one
-    foldl2((pred(L::in, Acc::in, M::out, CurrBest::in, Best::out) is det :-
-        C = ((T div L) * L + L) - T,
-        (if Acc > C then
-            M = C,
-            Best = M * L
-        else
-            M = Acc,
-            Best = CurrBest        
-        )
+    foldl2((pred(S::in, Acc::in, M::out, CurrBest::in, Best::out) is det :-
+
+        string.to_int(string.chomp(S), L) ->
+            C = ((T div L) * L + L) - T,
+            (if Acc > C then
+                M = C,
+                Best = M * L
+            else
+                M = Acc,
+                Best = CurrBest        
+            )
+        ;
+        M = Acc,
+        Best = CurrBest  
     ), Lines, 10000, _, 0, Result).
 
 main(!IO) :-
     io.write_string("Hello, December 13th\n", !IO),
 
-    Time = 939,
-    io.format("Time: %d\n", [i(Time)], !IO),
+    % Time = 939,
+    % io.format("Time: %d\n", [i(Time)], !IO),
 
-    Lines = [7, 13, 59, 31, 19],
+    % Lines = [7, 13, 59, 31, 19],
+
+    % earliestBus(Time, Lines, Result),
+
+    % io.format("Result: %d\n", [i(Result)], !IO).
     
-    % % two accumulators so we can keep track of which is the right one
-    % foldl2((pred(L::in, Acc::in, M::out, CurrBest::in, Best::out) is det :-
-    %     C = ((Time div L) * L + L) - Time,
-    %     (if Acc > C then
-    %         M = C,
-    %         Best = M * L
-    %     else
-    %         M = Acc,
-    %         Best = CurrBest        
-    %     )
-    % ), Lines, 10000, Min, 0, Best),
+    io.open_input("input.txt", OpenResult, !IO),
+    (
+        OpenResult = ok(File),
 
-    calc(Time, Lines, Best),
+        % read the bus number
+        io.read_line_as_string(File, ReadTime, !IO), (
+            ReadTime = ok(TimeString),
+            (
+                string.to_int(string.chomp(TimeString), Time) ->
+                    io.format("Time: %d\n", [i(Time)], !IO),
 
-    io.format("Best: %d\n", [i(Best)], !IO).
+                    % read the route descriptions
+                    io.read_line_as_string(File, ReadRoutes, !IO), (
+                        ReadRoutes = ok(RouteString),
+                        earliestBus(Time, string.split_at_char(',', RouteString), Result),
+                        io.format("Result: %d\n", [i(Result)], !IO)
+                        ;
+                            ReadRoutes = error(E),
+                            io.stderr_stream(Stderr2, !IO),
+                            io.write_string(Stderr2, io.error_message(E) ++ "\n", !IO)
+                        ;
+                            ReadRoutes = eof
+                    )
 
-    % print the results
-    % foldl((pred(L::in, !.IO::di, !:IO::uo) is det :-
-    %         io.print(L, !IO),
-    %         io.nl(!IO)), Modulos, !IO).
-    
-%     io.open_input("sampleinput.txt", OpenResult, !IO),
-%     (
-%         OpenResult = ok(File),
+                ;
+                    io.write_string("Bus num invalid", !IO)
+            )
+        ;
+            ReadTime = error(E),
+            io.stderr_stream(Stderr, !IO),
+            io.write_string(Stderr, io.error_message(E) ++ "\n", !IO)
+        ;
+            ReadTime = eof
+        )
 
-%         % read the bus number
-%         io.read_line_as_string(File, Res, !IO), (
-%             Res = ok(S),
-%             (
-%                 string.to_int(string.chomp(S), BusNum) ->
-%                     io.format("Bus: %d\n", [i(BusNum)], !IO),
-
-%                     % read the route descriptions
-%                     io.read_line_as_string(File, Res2, !IO), (
-%                         Res2 = ok(Routes),
-%                         io.write_string(Routes, !IO)
-
-%                         % foldl
-
-%                         ;
-%                             Res2 = error(E),
-%                             io.stderr_stream(Stderr2, !IO),
-%                             io.write_string(Stderr2, io.error_message(E) ++ "\n", !IO)
-%                         ;
-%                             Res2 = eof
-%                     )
-
-%                 ;
-%                     io.write_string("Bus num invalid", !IO)
-%             )
-%         ;
-%             Res = error(E),
-%             io.stderr_stream(Stderr, !IO),
-%             io.write_string(Stderr, io.error_message(E) ++ "\n", !IO)
-%         ;
-%             Res = eof
-%         )
-
-%     ;
-%         OpenResult = error(IO_Error),
-%         io.stderr_stream(Stderr, !IO),
-%         io.write_string(Stderr, io.error_message(IO_Error) ++ "\n", !IO)
-%    ).
+    ;
+        OpenResult = error(IO_Error),
+        io.stderr_stream(Stderr, !IO),
+        io.write_string(Stderr, io.error_message(IO_Error) ++ "\n", !IO)
+   ).
