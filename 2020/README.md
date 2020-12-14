@@ -473,3 +473,5 @@ Not sure yet how to factor this so going to be stuck with a deep nesting structu
 Going to take a break from the string parsing part to work on the actual logic with hardcoded data. Might just end up skipping file parsing altogether since it's a major pain. Figured out how to use foldl and now the plan is to use `foldl2` (dual accumulator foldl) to track both the lowest modulo I've seen and the result that gives.
 
 Spent quite awhile fiddling with defining predicates and sorted out a way to factor out my calculation into one, which means I can probably actually do my read-from file with where I'm at now.
+
+Part two is quite different, I think I have a better grasp on the lang now so it shouldn't take forever this time. I'm going to foldl to check the list, and return a -1 if it fails, otherwise return the timestamp from the parent func
