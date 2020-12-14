@@ -475,3 +475,11 @@ Going to take a break from the string parsing part to work on the actual logic w
 Spent quite awhile fiddling with defining predicates and sorted out a way to factor out my calculation into one, which means I can probably actually do my read-from file with where I'm at now.
 
 Part two is quite different, I think I have a better grasp on the lang now so it shouldn't take forever this time. I'm going to foldl to check the list, and return a -1 if it fails, otherwise return the timestamp from the parent func
+
+Day two, now that I've pinpointed the maths involved it's just a matter of actually working out how they apply. Also have moved to my macbook and looks like some of my notes from yesterday didn't get committed (relinquished my monitor and forgot to set up sshd on the meerkat). But basically some variant of the chinese remainder theorem here will work, since we know that:
+
+sum(T % Mi...(T + n) % Mn) = 0
+
+which means we just need to find the minimum T that fits the distribution. I was able to get the right value using wolfram alpha, but just need to figure out how to implement it in code now. Starting with golang and then will translate that to Mercury once I have a solution. Found an impl in python https://fangya.medium.com/chinese-remainder-theorem-with-python-a483de81fbb8 that may be a good jumping off point.
+
+I'm only about 80% on the math, but after some translation from python to Mercury, got a solve. Also thinking it might be fun to submit the unmodified version to https://rosettacode.org/wiki/Chinese_remainder_theorem

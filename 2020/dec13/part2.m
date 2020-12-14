@@ -10,31 +10,33 @@
 intList(I) = R :-
     map((pred(X::in, Y::out) is det :-
         string.to_int(string.chomp(X), Res) ->
-            Y = Res; Y = -1), I, R).
+            Y = Res; Y = 1), I, R).
+ 
+:- func modifiedChineseRemainder(list(int)) = int is det.
+modifiedChineseRemainder(Routes) = Out :-
+    foldl((pred(Mod::in, A::in, O::out) is det :-
+        O = A * Mod
+    ), Routes, 1, Prod),
 
-:- func earliestTimestamp(list(int)) = int is det.
-earliestTimestamp(Routes) = Out :-
-    Out = earliestTimestamp(100000000000000, Routes).
+    foldl2((pred(I::in, PrevTotal::in, Total::out, Idx::in, NewIdx::out) is det :-
+        P = Prod / I,
+        Total = PrevTotal + (Idx * mulInv(P, I, I, 0, 1) * P),
+        NewIdx = Idx + 1
+    ), Routes, 0, Sum, 0, _),
 
-
-:- func earliestTimestamp(int, list(int)) = int is det.
-earliestTimestamp(T, Routes) = Out :-
-    Res = earliestTimestamp(T, 0, Routes) ->
-        (if Res = -1 then
-            Out = earliestTimestamp(T+1, Routes)
-        else
-            Out = Res
-        )
-    ;
-        Out = T.
+    Out = Prod - Sum mod Prod.
 
 
-:- func earliestTimestamp(int, int, list(int)) = int is semidet.
-earliestTimestamp(Time, Idx, List) = Out :-
-    (if (Time + Idx) mod head(List) > 0 then
-       Out = -1
+:- func mulInv(int, int, int, int, int) = int is det.
+mulInv(A, B, B0, X0, X1) = Out :-
+    (if B0 = 1 then
+        Out = 1
+    else if A > 1 then
+        Out = mulInv(B, A mod B, B0, X1 - (A / B) * X0, X0)
+    else if X1 < 0 then
+        Out = X1 + B0
     else
-        Out = earliestTimestamp(Time, Idx + 1, tail(List))
+        Out = X1
     ).
 
 main(!IO) :-
@@ -55,7 +57,7 @@ main(!IO) :-
                         ReadRoutes = ok(RouteString),
 
                         BusRoutes = intList(string.split_at_char(',', RouteString)),
-                        Result = earliestTimestamp(BusRoutes),
+                        Result = modifiedChineseRemainder(BusRoutes),
                         io.format("Result: %d\n", [i(Result)], !IO)
                         ;
                             ReadRoutes = error(E),
