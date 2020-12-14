@@ -9,33 +9,37 @@
 :- func intList(list(string)) = list(int).
 intList(I) = R :-
     map((pred(X::in, Y::out) is det :-
-        string.to_int(string.chomp(X), O) ->
-            Y = O; Y = -1), I, R).
+        string.to_int(string.chomp(X), Res) ->
+            Y = Res; Y = -1), I, R).
 
-:- pred earliestTimestamp(list(int)::in, int::out) is det.
-earliestTimestamp(Lines, Result) :-
-    earliestTimestamp(0, Lines, Result).
-    
-:- pred earliestTimestamp(int::in, list(int)::in, int::out) is det.
-earliestTimestamp(T, Lines, Result) :-
-    foldl2((pred(Bus::in, Offset::in, Next::out, Prev::in, Count::out) is det :-
-        (if (Bus > 0; Prev = 0) then
-                Count = Prev + (T + Offset) mod Bus,
-                Next = Offset + 1
+:- func earliestTimestamp(list(int)) = int is det.
+earliestTimestamp(Routes) = Out :-
+    Out = earliestTimestamp(100000000000000, Routes).
+
+
+:- func earliestTimestamp(int, list(int)) = int is det.
+earliestTimestamp(T, Routes) = Out :-
+    Res = earliestTimestamp(T, 0, Routes) ->
+        (if Res = -1 then
+            Out = earliestTimestamp(T+1, Routes)
         else
-            Count = Prev,
-            Next = Offset + 1
+            Out = Res
         )
-    ), Lines, 0, _, 0, Total),
-    (if Total = 0 then
-            Result = T
-        else
-            earliestTimestamp(T+1, Lines, Result)
+    ;
+        Out = T.
+
+
+:- func earliestTimestamp(int, int, list(int)) = int is semidet.
+earliestTimestamp(Time, Idx, List) = Out :-
+    (if (Time + Idx) mod head(List) > 0 then
+       Out = -1
+    else
+        Out = earliestTimestamp(Time, Idx + 1, tail(List))
     ).
 
 main(!IO) :-
     io.write_string("Hello, December 13th part II\n", !IO),
-    io.open_input("sampleinput3.txt", OpenResult, !IO),
+    io.open_input("input.txt", OpenResult, !IO),
     (
         OpenResult = ok(File),
 
@@ -51,7 +55,7 @@ main(!IO) :-
                         ReadRoutes = ok(RouteString),
 
                         BusRoutes = intList(string.split_at_char(',', RouteString)),
-                        earliestTimestamp(BusRoutes, Result),
+                        Result = earliestTimestamp(BusRoutes),
                         io.format("Result: %d\n", [i(Result)], !IO)
                         ;
                             ReadRoutes = error(E),
