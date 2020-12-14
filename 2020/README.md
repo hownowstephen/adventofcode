@@ -512,3 +512,47 @@ Having thought it through some more, and double checked with some [truth tables]
 Ok, now to resolve a bunch of the shims I put in to get the base solve. Starting with memory being a static array, instead lets use a [hash table](https://nim-lang.org/docs/tables.html)
 
 Cool, reading files by line looks like it'll be a breeze https://stackoverflow.com/questions/41397499/how-to-load-file-line-by-line-in-nim and then string parsing using strutils should be my easiest move https://nim-by-example.github.io/strings/ - since it's got predictable input seems safe, and a bit of [bit magic](https://www.gamedev.net/forums/topic/492094-how-do-you-write-to-a-single-bit-in-a-integer/4213759/) and we're at solution #1
+
+for solution 2 we need to keep track of some floating bits. My basic idea is:
+- keep a list of which bits need to float
+- for each element in the list, and the list of subsequent elements generate all possible masks
+- then apply them
+
+say these were my two floating bits `0X00X00X` if I generate
+```
+b1 = 00000001
+b2 = 00001000
+b3 = 01000000
+```
+
+```
+0 0 0
+0 0 1
+0 1 0 
+0 1 1
+1 0 0
+1 0 1
+1 1 0
+1 1 1
+```
+
+which means that for each list of masks, there's 2^n addresses to generate
+
+struggled a bit with the logic and was really baffled, but got saved by the nim compiler from my own mistake
+```
+nim c -r --verbosity:0 part2.nim
+............
+/Users/stephen/devel/hownowstephen/adventofcode/2020/dec14/part2.nim(16, 13) Hint: 'addrIn' is declared but not used [XDeclaredButNotUsed]
+```
+
+I had been setting the mask bits just to the ones in the mask, instead of starting it out as the address. Otherwise the final logic came down to:
+
+- generate a list of integers with single bits set (our floating bits)
+- apply all ones directly to the input address since they're always set
+- the 2 ^ the length of the floating bits will be the number of memory addresses that we need to set so loop over that
+- grab which bits are set in the loop var (so 0->0; 1->1, 2->2, 3->1,2, 4->3)
+    - if it is set, `or` with the corresponding mask
+    - otherwise `and` with the inverse of the mask (set to zero)
+- and then set that memory address to the value provided
+
+I quite enjoyed working with Nim, the compiler is expressive, the documentation is good, and the syntax really does pull good things from ada, python, c++. Definitely the easiest language I've worked with so far
