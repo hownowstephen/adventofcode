@@ -483,3 +483,32 @@ sum(T % Mi...(T + n) % Mn) = 0
 which means we just need to find the minimum T that fits the distribution. I was able to get the right value using wolfram alpha, but just need to figure out how to implement it in code now. Starting with golang and then will translate that to Mercury once I have a solution. Found an impl in python https://fangya.medium.com/chinese-remainder-theorem-with-python-a483de81fbb8 that may be a good jumping off point.
 
 I'm only about 80% on the math, but after some translation from python to Mercury, got a solve. Also thinking it might be fun to submit the unmodified version to https://rosettacode.org/wiki/Chinese_remainder_theorem
+
+### Dec 14th: [Nim](https://nim-lang.org/)
+
+to run
+```
+make clean && make run
+make clean && make run2
+```
+
+Phew, back to a language that I feel more comfortable with. Last couple days the approach of hardcoding some sample input to prove the algo has been pretty effective, so going to start with that and then figure out the file i/o. Easy to install (using the mac today) with `brew install nim`
+
+Nim docs seem reasonably good, also looks like there's a bitops library which should be useful for doing this masking stuff https://nim-lang.org/docs/lib.html also nim by example will likely be very handy https://nim-by-example.github.io/ and https://nim-by-example.github.io/primitives/ looks like it's easy to declare binary data. Going to sub the `X` values in the mask with `1` since then I can `&` my values
+
+For hardcoded version going to just use two arrays `memidx` and `value`. Going to hardcode the memory size as well for now just to get things going.
+
+So it'll be the truth table
+```
+A B Q
+0 0 0
+0 1 1
+1 0 0
+1 1 1
+```
+
+Having thought it through some more, and double checked with some [truth tables](https://www.bzfar.org/publ/boolean_logic/boolean_logic/boolean_logic_truth_tables/20-1-0-38) - mask should be applied in two ways: `v and zeros` and `v or ones` where zeros contains all the zeros and ones otherwise, and ones contains all the ones and zeros otherwise. I don't _think_ there's an operator that does it in a single mask, but who knows.
+
+Ok, now to resolve a bunch of the shims I put in to get the base solve. Starting with memory being a static array, instead lets use a [hash table](https://nim-lang.org/docs/tables.html)
+
+Cool, reading files by line looks like it'll be a breeze https://stackoverflow.com/questions/41397499/how-to-load-file-line-by-line-in-nim and then string parsing using strutils should be my easiest move https://nim-by-example.github.io/strings/ - since it's got predictable input seems safe, and a bit of bit magic and we're at solution #1
