@@ -5,9 +5,6 @@ echo "Hello, Dec 14th"
 var
     memory = initTable[int, int]()
     sum: int
-
-
-var
     onemask: int = 0
     zeromask: int = not onemask
 

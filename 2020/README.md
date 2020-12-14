@@ -511,4 +511,4 @@ Having thought it through some more, and double checked with some [truth tables]
 
 Ok, now to resolve a bunch of the shims I put in to get the base solve. Starting with memory being a static array, instead lets use a [hash table](https://nim-lang.org/docs/tables.html)
 
-Cool, reading files by line looks like it'll be a breeze https://stackoverflow.com/questions/41397499/how-to-load-file-line-by-line-in-nim and then string parsing using strutils should be my easiest move https://nim-by-example.github.io/strings/ - since it's got predictable input seems safe, and a bit of bit magic and we're at solution #1
+Cool, reading files by line looks like it'll be a breeze https://stackoverflow.com/questions/41397499/how-to-load-file-line-by-line-in-nim and then string parsing using strutils should be my easiest move https://nim-by-example.github.io/strings/ - since it's got predictable input seems safe, and a bit of [bit magic](https://www.gamedev.net/forums/topic/492094-how-do-you-write-to-a-single-bit-in-a-integer/4213759/) and we're at solution #1
