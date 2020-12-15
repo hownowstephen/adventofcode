@@ -556,3 +556,23 @@ I had been setting the mask bits just to the ones in the mask, instead of starti
 - and then set that memory address to the value provided
 
 I quite enjoyed working with Nim, the compiler is expressive, the documentation is good, and the syntax really does pull good things from ada, python, c++. Definitely the easiest language I've worked with so far
+
+### Dec 15th: [OCaml](https://ocaml.org/)
+
+to run
+```
+make clean && make run
+make clean && make run2
+```
+
+Apparently this isn't the first of the ML family on my list, F# was also an ML variant. But nevertheless, something's always stuck in my head about OCaml (possibly just the camel logo tbh) so interested to give it a go. Starting with some tutorials from https://riptutorial.com/ocaml/example/7096/hello-world
+
+As is the new norm, going to start with hardcoding my inputs and then figure out file io afterwards. So we'll need to start with a list https://ocaml.org/releases/4.11/htmlman/libref/List.html here's a tutorial http://xahlee.info/ocaml/ocaml_list.html
+
+Was running into an error with variables being generalized - this seems to be tied to strong typing and also examples I was pulling from being for REPL code? Explicit type setting https://stackoverflow.com/questions/32489771/variables-that-cannot-be-generalized worked `let table : (int, int) Hashtbl.t`
+
+My plan is just to loop from 1...2020 and calculate values as we go, so going to use a plain loop https://ocaml.org/learn/tutorials/if_statements_loops_and_recursion.html#For-loops-and-while-loops instead of the functional side for now. Best I can tell things are zero-indexed https://alhassy.github.io/OCamlCheatSheet/ just in case I end up needing the loop var will have to remember to sub 1
+
+Going to define it as a function https://ocaml.org/learn/tutorials/basics.html#Defining-a-function. Also useful to know some ways of discarding returns to satisfy type constraints https://stackoverflow.com/questions/7382002/ocaml-print-statements
+
+Fought with imperative for awhile then realized it really wanted me to recurse instead. So I did that, tracking state using the Hashtbl. The initial input set was a bit tricky, since instead of returning zeros they return their own value, but made that a branch in the process func and it all seems to work now.
