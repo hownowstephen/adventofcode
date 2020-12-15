@@ -1,11 +1,11 @@
-print_string "Hello, December 15th\n"
+print_string "Hello, December 15th part II\n"
 
 (* let input = [|0; 3; 6|];; *)
 let input = [|1;0;16;5;17;4|]
 let seen : (int, int) Hashtbl.t = Hashtbl.create 436;;
 
 let setValue idx prev elem =
-  Printf.printf "turn %d  set elem: %d prev: %d new: %d\n" (idx+1) elem prev (idx - prev);
+  (* Printf.printf "turn %d  set elem: %d prev: %d new: %d\n" (idx+1) elem prev (idx - prev); *)
   Hashtbl.replace seen elem idx;
   idx - prev
 
@@ -21,4 +21,4 @@ let rec process i max last =
   else if i >= max then last
   else process (i+1) max (calc i last);;
 
-Printf.printf "%d\n" (process 0 2019 0)
+Printf.printf "%d\n" (process 0 (30000000-1) 0)

@@ -576,3 +576,16 @@ My plan is just to loop from 1...2020 and calculate values as we go, so going to
 Going to define it as a function https://ocaml.org/learn/tutorials/basics.html#Defining-a-function. Also useful to know some ways of discarding returns to satisfy type constraints https://stackoverflow.com/questions/7382002/ocaml-print-statements
 
 Fought with imperative for awhile then realized it really wanted me to recurse instead. So I did that, tracking state using the Hashtbl. The initial input set was a bit tricky, since instead of returning zeros they return their own value, but made that a branch in the process func and it all seems to work now.
+
+Wasn't expecting part II to be just the same with a higher target, I guess they expected a less optimized solution for part one - the other way I'd considered was to generate a new array on each pass with the extra element, which for sure wouldnt've scaled to 30M
+
+```
+Hello, December 15th part II
+573522
+
+real	0m18.510s
+user	0m15.935s
+sys	0m0.275s
+```
+
+So good design choices in the beginning mean I'm done way quicker than expected, and part2 is identical with a different target. IMO runtime of <20s is pretty reasonable, there's probably some other way of storing the values that'd be even faster but I'm calling this Good Enough
