@@ -589,3 +589,61 @@ sys	0m0.275s
 ```
 
 So good design choices in the beginning mean I'm done way quicker than expected, and part2 is identical with a different target. IMO runtime of <20s is pretty reasonable, there's probably some other way of storing the values that'd be even faster but I'm calling this Good Enough
+
+### Dec 16th: [Pascal](https://www.freepascal.org/)
+
+to run
+```
+make clean && make run
+make clean && make run2
+```
+
+Time to take it back to 1970 with some Pascal. Looks like freepascal is pretty well supported, recent release was in June, phew. Let's hope that in the 50 years it's been around there's been some decent docs written. [This tutorial](https://wiki.freepascal.org/Category:Basic_Pascal_Introduction) seems promising. [Also this one](https://www.pascal-programming.info/lesson1.php)
+
+Will need File IO later, but for now let's just hardcode some rules. Going to still use a [dynamic array](https://wiki.freepascal.org/Dynamic_array) since I'll need that later.
+
+~Looks like since I'm using FPC I may need to be careful about what sources I use for language ref, syntax appears to maybe differ? The [type definition](https://wiki.freepascal.org/Type)~ nevermind, what I actually need to be careful about is reading things properly haha I misread the [var section](https://www.pascal-programming.info/lesson9.php) here as type and defined my type using `:` instead of `=`
+
+seems like non-verbose static definition of variables isn't exactly a strong suit for pascal, that or there's tricks I've yet to come across. Anyway hardcoding these
+```
+    // class: 1-3 or 5-7
+    names[0] := "class";
+    rules[0][0][0] := 1;
+    rules[0][0][1] := 3;
+    rules[0][1][0] := 5;
+    rules[0][1][1] := 7;
+
+    // row: 6-11 or 33-44
+    names[1] := "row";
+    rules[1][0][0] := 6;
+    rules[1][0][1] := 11;
+    rules[1][1][0] := 33;
+    rules[1][1][1] := 44;
+
+    // seat: 13-40 or 45-50
+    names[2] := "seat";
+    rules[2][0][0] := 13;
+    rules[2][0][1] := 40;
+    rules[2][1][0] := 45;
+    rules[2][1][1] := 50;
+```
+
+is fine for now, since when I get to the file side of things, that'll all be wrapped into the file reading.
+
+Cool fact: pascal does memory alignment such that accessing elements out of array bounds will just return whatever's next in memory. Was iterating from `0 to length(x)` instead of `0 to length(x)-1` and getting some wacky results.
+
+Anyway, that works now, so on we go to [File IO](https://wiki.freepascal.org/File_Handling_In_Pascal)
+
+```
+part1.pas(23,5) Error: Identifier not found "AssignFile"
+part1.pas(26,5) Error: Identifier not found "try"
+part1.pas(28,9) Fatal: Syntax error, ";" expected but "identifier RESET" found
+```
+
+which requires a different mode, fpc assumes turbopascal, but I should be using delphi mode [says stackoverflow](https://stackoverflow.com/questions/26553801/pascal-closefile-not-found) -- that seems to have solved my problems for now. Let's see about some string parsing after lunch
+
+[string to int](https://www.freepascal.org/docs-html/rtl/sysutils/strtoint.html), string split seems like it's got all sorts of solutions, I think I'll use strutils though https://stackoverflow.com/questions/2625707/split-a-string-into-an-array-of-strings-based-on-a-delimiter. Pretty wild that string comparison is not native to the syntax https://stackoverflow.com/questions/33279216/how-do-i-compare-2-strings-in-pascal but with the delphi extensions I at least get something usable 
+
+I think for parsing the three sections I'll use three `REPEAT UNTIL` blocks https://www.pascal-programming.info/lesson4.php. Also maybe overkill but I wrote [a function](https://www.tutorialspoint.com/pascal/pascal_functions.htm) to parse the actual rules. Had to use a custom return type, pascal doesn't allow bare array returns for some reason.
+
+Also TStringlist doesn't work in `length` which junked me up for awhile, the [proper way](https://stackoverflow.com/questions/5183754/how-to-check-length-of-tstringlist-in-delphi) to grab length is with `TStringList.count`. Just needed to account for spaces in the original names (splitting the string twice instead of once) and we've got a solve
