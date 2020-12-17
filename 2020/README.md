@@ -476,6 +476,12 @@ Spent quite awhile fiddling with defining predicates and sorted out a way to fac
 
 Part two is quite different, I think I have a better grasp on the lang now so it shouldn't take forever this time. I'm going to foldl to check the list, and return a -1 if it fails, otherwise return the timestamp from the parent func
 
+Ok well I solved it twice using brute force before realizing it's just a math problem using systems of modular equations https://www.wolframalpha.com/input/?i=systems+of+equations+calculator&assumption=%7B%22F%22%2C+%22SolveSystemOf3EquationsCalculator%22%2C+%22equation1%22%7D+-%3E%22x+mod+17+%3D+0%22&assumption=%22FSelect%22+-%3E+%7B%7B%22SolveSystemOf3EquationsCalculator%22%7D%7D&assumption=%7B%22F%22%2C+%22SolveSystemOf3EquationsCalculator%22%2C+%22equation2%22%7D+-%3E%22%28x+%2B+2%29+mod+13+%3D+0%22&assumption=%7B%22F%22%2C+%22SolveSystemOf3EquationsCalculator%22%2C+%22equation3%22%7D+-%3E%22%28x+%2B+3%29+mod+19+%3D+0%22 for example
+
+```
+Reduce[{Mod[x, 67] == 0, Mod[1 + x, 7] == 0, Mod[2 + x, 59] == 0, Mod[3 + x, 61] == 0}, {x}]
+```
+
 Day two, now that I've pinpointed the maths involved it's just a matter of actually working out how they apply. Also have moved to my macbook and looks like some of my notes from yesterday didn't get committed (relinquished my monitor and forgot to set up sshd on the meerkat). But basically some variant of the chinese remainder theorem here will work, since we know that:
 
 sum(T % Mi...(T + n) % Mn) = 0
