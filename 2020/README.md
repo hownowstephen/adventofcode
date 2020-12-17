@@ -647,3 +647,19 @@ which requires a different mode, fpc assumes turbopascal, but I should be using 
 I think for parsing the three sections I'll use three `REPEAT UNTIL` blocks https://www.pascal-programming.info/lesson4.php. Also maybe overkill but I wrote [a function](https://www.tutorialspoint.com/pascal/pascal_functions.htm) to parse the actual rules. Had to use a custom return type, pascal doesn't allow bare array returns for some reason.
 
 Also TStringlist doesn't work in `length` which junked me up for awhile, the [proper way](https://stackoverflow.com/questions/5183754/how-to-check-length-of-tstringlist-in-delphi) to grab length is with `TStringList.count`. Just needed to account for spaces in the original names (splitting the string twice instead of once) and we've got a solve
+
+Now for part two what I'll need is
+    - something to track potential valid rulesets for each field
+    - something to find the fields I care about (the departure rules)
+
+I think I might be able to use sets for the first, and the second I'll just generate a list of indices with the [departure prefix](https://www.programming-idioms.org/idiom/96/check-string-prefix/1231/pascal) as I parse the rules
+
+Pascal sets can't be a set of integers, because that would let them be way too big - but we only need the set to be at most the length of the ticket. If we assume the ticket length is always < 256 (max size of a set) then we're ok here. And since I've seen the input, we are safe.
+
+Ok I have some sets now, but in order to drill down to fields, I need to do something like
+- for each set
+- try to subtract all other sets
+- if it comes up with one element, add that element to the base removal set
+- and continue until we've calculated them all
+
+Got a working program hours ago, and then got the wrong answer. Tricky because the sample wasn't long enough to actually validate the program in the specific bug I'd done, which was setting my mapping of `rule -> target` backwards, which gave the absolute wrong indexes but a reasonable-looking answer. Wasn't really in the headspace to do a pascal-only solve, so as a bonus I solved part2 in python and used that result to double-check my answers for the pascal version, and therein found the bug. Double P today, and I am DONE

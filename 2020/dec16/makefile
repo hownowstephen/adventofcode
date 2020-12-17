@@ -1,7 +1,7 @@
 run: part1
 	./part1
 
-run2:
+run2: part2
 	./part2
 
 part1:
