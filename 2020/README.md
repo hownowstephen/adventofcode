@@ -672,6 +672,12 @@ Got a working program hours ago, and then got the wrong answer. Tricky because t
 
 ### Dec 17th: [Racket](https://racket-lang.org/)
 
+to run
+```
+racket part1.rkt
+racket part2.rkt
+```
+
 What, no Q? Turns out there don't seem to be any mature languages that start with Q. Maybe this is a niche I can fill, but for now anyway I've got one skip because advent is shorter than the alphabet and I'm using it to skip through to Racket. Definitely needed to fit a lisp in somewhere!
 
 Today we're doing a three dimensional game of life, I've never actually implemented GoL so should be an interesting one. Also it's on an infinite grid which will mean some clever work around growing the matrices. Also my new monitor arrived so I'm back on the meerkat, though it's not yet mounted to the monitor
@@ -689,3 +695,7 @@ Not sure if I should use vector or list, going to stick with vector for the time
 So far mostly just playing with different ways of iteration etc, also discovering that negation isn't sugared https://stackoverflow.com/questions/39114564/why-are-not-equal-and-similar-negated-comparisons-not-built-into-racket which is pretty wild.
 
 Got a basic implementation in 2d that just expands the matrix every time, which is probably going to be a problem going forward but I'll burn that bridge when I come to it. In the meantime, I think I might be able to just apply all the same ideas in 3d, let's find out
+
+Going good so far, dropping in to note that `for*` is [a shorthand](https://docs.racket-lang.org/guide/for.html) for nested for loops, which maybe works also for `for/vector*` which would be a useful refactor for readability
+
+Looking at the visual outputter was messing with me. I just had to believe in myself and use the values that made sense mathematically for offsetting. Got me to the right answer for part 1, and great news: part two is identical to the path I took - we're going to four dimensions BABY
