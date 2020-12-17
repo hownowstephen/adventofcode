@@ -699,3 +699,11 @@ Got a basic implementation in 2d that just expands the matrix every time, which 
 Going good so far, dropping in to note that `for*` is [a shorthand](https://docs.racket-lang.org/guide/for.html) for nested for loops, which maybe works also for `for/vector*` which would be a useful refactor for readability
 
 Looking at the visual outputter was messing with me. I just had to believe in myself and use the values that made sense mathematically for offsetting. Got me to the right answer for part 1, and great news: part two is identical to the path I took - we're going to four dimensions BABY
+
+Time to expand the dimensions one more time, which worked a treat. There's definitely plenty I could've done better in this one namely:
+    - generalizing most of the functions to work with n-dimensional vectors
+    - only expanding a vector if necessary
+    - the print functionality didn't seem to be right, probably something was flipped around
+    - using `for*` and `let*` to do some cleaner definitions (maybe not even necessary if we're supporting n-dimensions)
+
+But that's where I'll be leaving it since it works and it took me less than 15 mins to go from 3 to 4 dimensions anyway.
