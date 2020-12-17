@@ -669,3 +669,23 @@ Ok I have some sets now, but in order to drill down to fields, I need to do some
 - and continue until we've calculated them all
 
 Got a working program hours ago, and then got the wrong answer. Tricky because the sample wasn't long enough to actually validate the program in the specific bug I'd done, which was setting my mapping of `rule -> target` backwards, which gave the absolute wrong indexes but a reasonable-looking answer. Wasn't really in the headspace to do a pascal-only solve, so as a bonus I solved part2 in python and used that result to double-check my answers for the pascal version, and therein found the bug. Double P today, and I am DONE
+
+### Dec 17th: [Racket](https://racket-lang.org/)
+
+What, no Q? Turns out there don't seem to be any mature languages that start with Q. Maybe this is a niche I can fill, but for now anyway I've got one skip because advent is shorter than the alphabet and I'm using it to skip through to Racket. Definitely needed to fit a lisp in somewhere!
+
+Today we're doing a three dimensional game of life, I've never actually implemented GoL so should be an interesting one. Also it's on an infinite grid which will mean some clever work around growing the matrices. Also my new monitor arrived so I'm back on the meerkat, though it's not yet mounted to the monitor
+
+```
+sudo add-apt-repository ppa:plt/racket
+sudo apt update
+sudo apt install racket
+```
+
+Going to steal some ideas from https://github.com/kflu/game-of-life-racket/blob/master/life.rkt mostly to bootstrap myself into some basics by example. But also trying to do it mostly from the racket docs, starting with how do you print things out more generally https://docs.racket-lang.org/reference/Writing.html
+
+Not sure if I should use vector or list, going to stick with vector for the time being, no particular reason.
+
+So far mostly just playing with different ways of iteration etc, also discovering that negation isn't sugared https://stackoverflow.com/questions/39114564/why-are-not-equal-and-similar-negated-comparisons-not-built-into-racket which is pretty wild.
+
+Got a basic implementation in 2d that just expands the matrix every time, which is probably going to be a problem going forward but I'll burn that bridge when I come to it. In the meantime, I think I might be able to just apply all the same ideas in 3d, let's find out
