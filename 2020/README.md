@@ -739,3 +739,7 @@ error: extraneous argument label 'contentsOfFile:' in call
 ```
 
 was because I didn't `import Foundation` - the main `Swift` stdlib seems to not have much for file IO I guess?
+
+To do part two I can use more or less the same deal, except that we want an accumulator for the values to multiply - so instead of applying multiplication immediately, we drop `a` into a list whenever we encounter a multiplication operator and then we defer multiplication to the end of the evaluated block.
+
+about a 20 min change, with some debugging (I was appending `b!` to mul instead of `a`, and zeroing `a` instead of setting it to `b!`) but otherwise we have another solve
