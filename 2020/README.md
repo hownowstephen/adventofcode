@@ -707,3 +707,35 @@ Time to expand the dimensions one more time, which worked a treat. There's defin
     - using `for*` and `let*` to do some cleaner definitions (maybe not even necessary if we're supporting n-dimensions)
 
 But that's where I'll be leaving it since it works and it took me less than 15 mins to go from 3 to 4 dimensions anyway.
+
+### Dec 18th: [Swift](https://swift.org)
+
+to run
+```
+swift part1.swift
+swift part2.swift
+```
+
+Figure might as well give Swift a go. Also my chance to use some [emoji as variables](https://wolfmcnally.com/121/programming-with-fruit-using-emoji-swift/)
+
+Today we're exploring a world without operator precedence, and doing some quick maffs on strings. Should be a fairly straightforward solve, going to start with a solution that works for non-bracket strings, then figure out a best way to split out bracketed groups (spoiler: probably just consuming the entire string up to the next closed bracket and applying the func to the internal)
+
+Lots of unexpected functionality differences, like string subscripting isn't really a thing https://www.agnosticdev.com/content/how-get-first-or-last-characters-string-swift-4
+
+also the types seem unnecessarily overdefined, like the suffix of a string comes out as a String.Subsequence so can't be assigned to a string and [needs to be cast](https://stackoverflow.com/questions/40186330/convert-subsequence-of-collection-to-string).
+
+Nevermind, actually looks like there's just a whole other syntax for subscripting and it takes a `String.Index` type instead TIHI
+
+Class constructor syntax also seems a little weird. why [two names](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html)
+
+String [appending](https://reactgo.com/swift-append-character-string/) will help accumulate values in the numbers (to support multi-character numbers).
+
+For simplicity, since the input is all space-delimited, I'll be using spaces as a signal, but if we wanted to support less strictly delimited maffs we'd need to check for ops as we go and if we run into one, interpret accordingly
+
+OK got my maffs in place, now time to [read from a file](https://forums.swift.org/t/read-text-file-line-by-line/28852). Looks like this explains the constructor thing, I guess you can do different constructors and it interprets them based in the input vars? After a ton of fighting it turns out the issue I was running into:
+
+```
+error: extraneous argument label 'contentsOfFile:' in call
+```
+
+was because I didn't `import Foundation` - the main `Swift` stdlib seems to not have much for file IO I guess?
