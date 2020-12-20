@@ -157,27 +157,34 @@ for line in rawRules.split("\n"):
         rules[int(x)] = [[int(a.strip()) for a in l.strip().split(" ")] for l in y.split("|")]
 
 
+# rules[8] = [[42], [42,8]]
+# rules[11] = [[42,31], [42,11,31]]
+
 def all_match(s, idx, rule):
     for sub in rule:
-        matched, i = match(s, idx, sub)
-        if not matched:
-            return (False, 0)
+        i = match(s, idx, sub)
+        if i <= idx:
+            return 0
         idx = i
-    return (True, idx)
+    return idx
 
 def any_match(s, idx, rule):
     for sub in rule:
-        matched, i = match(s, idx, sub)
-        if matched:
-            return (True, i)
-    return (False, 0)
+        i = match(s, idx, sub)
+        if i > idx:
+            return i
+    return 0
 
 def match(s, idx, rule):
     # print idx, rule
     if type(rule) is int:
         return match(s, idx, rules[rule])
     elif type(rule) is str:
-        return (s[idx] == rule, idx+1)
+        if idx >= len(s):
+            return 0
+        elif s[idx] == rule:
+            return idx + 1
+        return 0
     elif type(rule[0]) is int:
         return all_match(s, idx, rule)
     return any_match(s, idx, rule)
@@ -193,8 +200,8 @@ with open("input.txt") as f:
     for line in f:
         total += 1
         val = line.strip()
-        matched, i =  match(val, 0, 0)
-        if matched and i == len(val):
+        i =  match(val, 0, 0)
+        if i == len(val):
             count += 1
 
 print count, total
