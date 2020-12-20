@@ -743,3 +743,25 @@ was because I didn't `import Foundation` - the main `Swift` stdlib seems to not 
 To do part two I can use more or less the same deal, except that we want an accumulator for the values to multiply - so instead of applying multiplication immediately, we drop `a` into a list whenever we encounter a multiplication operator and then we defer multiplication to the end of the evaluated block.
 
 about a 20 min change, with some debugging (I was appending `b!` to mul instead of `a`, and zeroing `a` instead of setting it to `b!`) but otherwise we have another solve
+
+### Dec 19th: [Tcl](https://www.tcl-lang.org/)
+
+to run
+```
+tclsh part1.tcl
+tclsh part2.tcl
+```
+
+Alisdair suggested I solve in [Terraform](https://www.terraform.io) having pointed out that you can do some pretty wild stuff with tf configs... so I might attempt that once I have a working solution in my planned language, mostly depends on how long it takes to write this rules engine. 
+
+For starters let's figure out some data structures. It's going to look a little bit like a tree I guess, with nodes being either a ref or a value. 
+
+So my basic idea is:
+- read each rule as a list of subrules
+- read each char in the input string and try applying rules inorder until they fail
+
+So we'll need some [multi-dimensional arrays](https://stackoverflow.com/questions/44428213/how-to-implement-two-dimensional-arrays-in-tcl)
+
+Feel like I've got a reasonable grasp on those now, and otherwise the tcl guide seems actualy quite good https://www.tcl.tk/man/tcl8.5/tutorial/Tcl0.html
+
+Ok I hate TCL haha. Apparently it does some [parsing of commented text](https://wiki.tcl-lang.org/page/Why+can+I+not+place+unmatched+braces+in+Tcl+comments), for one which is just such a bad idea. Anyway, I think I've got a solution that sort of works, just need to figure out file IO. My plan is to just read the whole file, split by \n\n and then parse each section into inputs and results. Mostly because the rules aren't provided inorder, and I'm using a list instead of a map.
