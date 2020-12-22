@@ -1,0 +1,26 @@
+        " for ingredient in ingredients
+        "     if has_key(result, ingredient)
+        "         let matching = {}
+        "         for allergen in keys(allergens)
+        "             if has_key(result[ingredient], allergen)
+        "                 let matching[allergen] = 1
+        "             endif
+        "         endfor
+        "         let result[ingredient] = matching
+        "     else
+        "         let result[ingredient] = allergens
+        "     endif
+        " endfor
+
+            " echom result
+    " echom ingredientCounts
+    " let c=0
+    " for ingredient in items(result)
+    "     if len(ingredient[1]) == 0
+    "         echom ingredient[0]
+    "         echom ingredientCounts[ingredient[0]]
+    "         let c += ingredientCounts[ingredient[0]]
+    "     endif
+    " endfor
+
+    " echom c

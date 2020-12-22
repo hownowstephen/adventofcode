@@ -765,3 +765,30 @@ So we'll need some [multi-dimensional arrays](https://stackoverflow.com/question
 Feel like I've got a reasonable grasp on those now, and otherwise the tcl guide seems actualy quite good https://www.tcl.tk/man/tcl8.5/tutorial/Tcl0.html
 
 Ok I hate TCL haha. Apparently it does some [parsing of commented text](https://wiki.tcl-lang.org/page/Why+can+I+not+place+unmatched+braces+in+Tcl+comments), for one which is just such a bad idea. Anyway, I think I've got a solution that sort of works, just need to figure out file IO. My plan is to just read the whole file, split by \n\n and then parse each section into inputs and results. Mostly because the rules aren't provided inorder, and I'm using a list instead of a map.
+
+### Dec 21st: [vimscript](https://en.wikipedia.org/wiki/Vim_(text_editor)#Vim_script)
+
+to run 
+```
+ln -s `pwd`/part1.vim ~/.vim/autoload/part1.vim
+ln -s `pwd`/part2.vim ~/.vim/autoload/part2.vim
+vim input.txt
+> :call part1#Parse()
+> :call part2:#Parse()
+```
+
+Took a day off after a very brief exploration of possible languages that start with U for the 20th. Spoiler: there's nothing really. Technically there's [umple](https://cruise.umple.org/umple/index.html) but that's just UML + other programming languages, and not really worth the effort. Anyway, will circle back to finishing the 20th and the second half of the 19th at some point this week. But for now, going to press on with the 21st
+
+Might fall back to one of the Visual languages, but starting with Vimscript, using the [learn vimscript the hard way](https://learnvimscriptthehardway.stevelosh.com/) tutorial as a basis.
+
+Firstly needed to sort out [reading a file](http://vim.1045645.n5.nabble.com/Loop-through-all-lines-in-a-file-td1150600.html) and I'll be taking the lines one-by one and parsing them into a map. Basically the map should be a map of <ingredient>: <possible allergens>
+
+I wasn't really feeling it after that didn't work, and couldn't stomach doing the match locally, so I got a quick bit of inspiration from [reddit](https://reddit.com/r/adventofcode), enough that I'm back in it. I had done the algorithm properly on paper, but failed to map it back to the meaning behind it in the code. What we want is for every allergen, find the intersecting values in their respective lists, and remove those as having an allergen.
+
+Ran into a lot of `Undefined variable` errors making a helper method. Looks like args show up as `a:` prefixed. Weird way to do scope, kind of nice though? 
+
+Wish I had some native foldl right about now. Looks like there's some functional programming stuff, but not what I want and also it's copy based aaaa.
+
+And after a bit of playing around with loops and whiles, we have a solve for part one. Doesn't feel quite as good having consulted the forum, but then again I technically had the algo almost immediately, but then misinterpreted it in the code because I was futzing with learning vimscript. Also big fan of being able to just run the thing directly on whatever file happens to be open in vim, pretty neat
+
+Now for part two, turning the remaining ingredients into the canonical ingredient list. I think the basic next step is going to be effectively to eliminate the inert ingredients from my ingredient lists, find all ingredients that are well defined, and then whittle from there. Let's give it a go!
