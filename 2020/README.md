@@ -794,3 +794,24 @@ And after a bit of playing around with loops and whiles, we have a solve for par
 Now for part two, turning the remaining ingredients into the canonical ingredient list. I think the basic next step is going to be effectively to eliminate the inert ingredients from my ingredient lists, find all ingredients that are well defined, and then whittle from there. Let's give it a go!
 
 And not much to it, poked around at some extra stuff in the learn vimscript the hard way tutorial (very good tutorial :chef-kiss:)
+
+### Dec 22nd: [WebAssembly](https://webassembly.org/)
+
+to run, wabt/bin must be in path, then
+```
+make clean && make run
+make clean && make run2
+```
+
+Thankfully the problem today seems reasonably straightforward, so I'll give it a go with [hand-written WASM](https://blog.scottlogic.com/2018/04/26/webassembly-by-hand.html). Took a quick look at his method of compiling and noticed his "I don't like native dependencies" stance, so uhh... yeah, we're going native with [wabt](https://github.com/WebAssembly/wabt). While that compiles I'll put together a prospective makefile for my project I guess
+
+Doesn't seem like wasm has access to syscalls, which means we'll be running blind. So here's my basic idea:
+
+1. Manually populate two lists of integers (that'll be a pain. maybe there's some way of automating that?)
+2. Maintain pointers to the head and tail of each list
+3. As soon as the head and tail of two lists are the same point in memory, that one is empty and the other one is the winner
+4. Something multiplicationy
+
+Totally forgot about integer length there for a bit and was getting some pretty wild numbers before it became clear that I needed to do some offsetting by 4 bytes. Memory management is sure a pain. I'm being pretty loose with my mem management - just allocating two blocks of 1024 bytes for my lists. I think that almost certainly won't be enough for the actual input. Having now looked at it I'm confident about that. It's possible I'll need to allocate a couple of pages even, since I just want to increment through memory and not bother with any fancy mem recovery
+
+OK got the sample program working and returning my result, now going to manually generate my actual program input and see how we do
