@@ -792,3 +792,5 @@ Wish I had some native foldl right about now. Looks like there's some functional
 And after a bit of playing around with loops and whiles, we have a solve for part one. Doesn't feel quite as good having consulted the forum, but then again I technically had the algo almost immediately, but then misinterpreted it in the code because I was futzing with learning vimscript. Also big fan of being able to just run the thing directly on whatever file happens to be open in vim, pretty neat
 
 Now for part two, turning the remaining ingredients into the canonical ingredient list. I think the basic next step is going to be effectively to eliminate the inert ingredients from my ingredient lists, find all ingredients that are well defined, and then whittle from there. Let's give it a go!
+
+And not much to it, poked around at some extra stuff in the learn vimscript the hard way tutorial (very good tutorial :chef-kiss:)
