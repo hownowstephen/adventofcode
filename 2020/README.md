@@ -814,4 +814,17 @@ Doesn't seem like wasm has access to syscalls, which means we'll be running blin
 
 Totally forgot about integer length there for a bit and was getting some pretty wild numbers before it became clear that I needed to do some offsetting by 4 bytes. Memory management is sure a pain. I'm being pretty loose with my mem management - just allocating two blocks of 1024 bytes for my lists. I think that almost certainly won't be enough for the actual input. Having now looked at it I'm confident about that. It's possible I'll need to allocate a couple of pages even, since I just want to increment through memory and not bother with any fancy mem recovery
 
-OK got the sample program working and returning my result, now going to manually generate my actual program input and see how we do
+OK got the sample program working and returning my result, now going to manually generate my actual program input and see how we do. And we're done part one!
+
+Onto part two, which introduces some recursion. The new rules are:
+- If this configuration has been seen before in this game, player one wins (need to think about how to do this one ugh)
+- Both players draw from the deck. If the number is less than their deck size, then we recurse on the subdecks
+- Otherwise the player with the higher card wins
+- Play until someone doesn't have any more cards
+
+Phew it took most of another day but I've got a version that is working for the test input. Things I learned:
+
+- Memory aligmnent at powers of two is useful if you're not also checking memory
+- Debugging assembly when all you can get is an int32 back is a pain. Should've either put effort into a UI for this OR set up some of the debugging that I was doing by the end upfront
+
+Now to see if any of my memory bounds are a problem for the real input data
