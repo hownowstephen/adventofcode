@@ -828,3 +828,44 @@ Phew it took most of another day but I've got a version that is working for the 
 - Debugging assembly when all you can get is an int32 back is a pain. Should've either put effort into a UI for this OR set up some of the debugging that I was doing by the end upfront
 
 Now to see if any of my memory bounds are a problem for the real input data
+
+
+### Dec 24th [Yorick](https://github.com/LLNL/yorick)
+
+to run
+```
+yorick
+> #include "part1.i"
+> #include "part2.i"
+```
+
+This seems be a reasonably viable choice for the hex grid problem set. We'll see if I can model it properly!
+
+I think a good base assumption is that I can make a [hexagonal lattice](https://stackoverflow.com/questions/7392621/what-is-the-best-way-to-represent-hexagonal-latice) that centers the reference tile such that each direction maximum is the max commands in any string, because the pathological case would be that we get all commands in a single direction. But for starters I'll make a static grid size and can sort that part out once I know how to parse the commands
+
+Ok I've sorted out how to read a string! Indexing only works on numeric arrays, strings need `strpart(s, RANGE)` where `RANGE` is formatted like `A:B` (or I think you can do step sizing with `A:B:C` but who cares about that). Since the cardinal directions for hex are `e`, `w`, `ne`, `nw`, `se`, `sw` I should be able to break it into sections by checking the char. 
+
+Also looks like you can leave off `{` braces to do single commands, but can also include them despite there being no obvious mention of it in the docs.
+
+Ok got the basics of tile flipping working. I'm going to use a bad representation of a hex grid where there are gaps because it's easier, basically I could do fancy offsetting such that we have a nice sparse grid like
+```
+[nw][ne]
+[w][t][e]
+[sw][se]
+```
+
+or just have a regular grid
+```
+[nw][  ][ne]
+[ w][ t][ e]
+[sw][  ][se]
+```
+with unused cells. 
+
+Arrays in yorick are cheap, and my grid won't be that big I don't think so this seems like the easiest approach. Also instead of actually figuring out a grid size I'll just choose something giant
+
+File IO doesn't seem to have a standard EOF read structure, so I'm going by "is the line you just read 1 character or shorter", because apparently it just reads a `0x0` value?
+
+OK I doubled back on my idea of using a sparse grid because it was wrong, and also the math for doing proper hex grids isn't hard. Wrote it out on some paper, but basically with an offset grid, you can either offset in each direction when you go `nw` or `se` OR when you go `ne` or `sw` depending on what direction you're offsetting. In conclusion: don't be lazy about what turns out to be easy math
+
+And that's solved part one. Looks like part two is a whole different problem now that the tiles are in place. Off we go!
