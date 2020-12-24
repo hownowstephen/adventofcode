@@ -1,6 +1,6 @@
 (module
 
-    (memory $0 64)
+    (memory $0 256)
     (data (i32.const 1024) "Hello, Dec 22nd Part 2!\00") ;; gotta have it, even though it's not being printed
 
     ;; increment by 1
@@ -47,14 +47,14 @@
     ;; [n][n+1] are start and end pointers
     ;; [n*4096 + 4096] is the start of the deck itself
     (func $initDeck (param $id i32)
-        (local $slots i32)
-        (set_local $slots (i32.const 10000))
+        (local $slotSize i32)
+        (set_local $slotSize (i32.const 25000))
         ;; init the start pointer
         (i32.store
             (call $head (get_local $id))
             (i32.add
-                (i32.const 10000) ;; first 1024 bytes are reserved for the deck pointers
-                (i32.mul (get_local $slots) (get_local $id))
+                (i32.const 10000) ;; first 10K bytes are reserved for the deck pointers
+                (i32.mul (get_local $slotSize) (get_local $id))
             )
         )
         ;; init the end pointer
@@ -62,7 +62,7 @@
             (call $tail (get_local $id))
             (i32.add
                 (i32.const 10000)
-                (i32.mul (get_local $slots) (get_local $id))
+                (i32.mul (get_local $slotSize) (get_local $id))
             )
         )
     )
@@ -228,7 +228,7 @@
         (i32.add 
             (i32.const 2000000)
             (i32.mul
-                (i32.const 20000)
+                (i32.const 50000)
                 (i32.div_s
                     (get_local $id)
                     (i32.const 2)
@@ -319,9 +319,6 @@
         (local $winner i32)
         (local $nextDeck1 i32)
         (local $nextDeck2 i32)
-
-        ;; track how many rounds the deck plays
-        (call $incrRounds (get_local $deck1))
 
         ;; look at the next two cards
         (set_local $card1 (call $deckPeek (get_local $deck1)))
@@ -437,24 +434,63 @@
         (call $initDeck (i32.const 0))
         (call $initDeck (i32.const 1))
 
-        ;; sample inputs
-        ;; initialize the first deck
-        (call $addToDeck (i32.const 0) (i32.const 9))
-        (call $addToDeck (i32.const 0) (i32.const 2))
-        (call $addToDeck (i32.const 0) (i32.const 6))
+        ;; Player 1:
+        (call $addToDeck (i32.const 0) (i32.const 14))
+        (call $addToDeck (i32.const 0) (i32.const 29))
+        (call $addToDeck (i32.const 0) (i32.const 25))
+        (call $addToDeck (i32.const 0) (i32.const 17))
+        (call $addToDeck (i32.const 0) (i32.const 13))
+        (call $addToDeck (i32.const 0) (i32.const 50))
+        (call $addToDeck (i32.const 0) (i32.const 33))
+        (call $addToDeck (i32.const 0) (i32.const 32))
+        (call $addToDeck (i32.const 0) (i32.const 7))
+        (call $addToDeck (i32.const 0) (i32.const 37))
+        (call $addToDeck (i32.const 0) (i32.const 26))
+        (call $addToDeck (i32.const 0) (i32.const 34))
+        (call $addToDeck (i32.const 0) (i32.const 46))
+        (call $addToDeck (i32.const 0) (i32.const 24))
         (call $addToDeck (i32.const 0) (i32.const 3))
+        (call $addToDeck (i32.const 0) (i32.const 28))
+        (call $addToDeck (i32.const 0) (i32.const 18))
+        (call $addToDeck (i32.const 0) (i32.const 20))
+        (call $addToDeck (i32.const 0) (i32.const 11))
         (call $addToDeck (i32.const 0) (i32.const 1))
+        (call $addToDeck (i32.const 0) (i32.const 21))
+        (call $addToDeck (i32.const 0) (i32.const 8))
+        (call $addToDeck (i32.const 0) (i32.const 44))
+        (call $addToDeck (i32.const 0) (i32.const 10))
+        (call $addToDeck (i32.const 0) (i32.const 22))
 
-        ;; initialize the second deck
+        ;; Player 2:
         (call $addToDeck (i32.const 1) (i32.const 5))
-        (call $addToDeck (i32.const 1) (i32.const 8))
+        (call $addToDeck (i32.const 1) (i32.const 38))
+        (call $addToDeck (i32.const 1) (i32.const 27))
+        (call $addToDeck (i32.const 1) (i32.const 15))
+        (call $addToDeck (i32.const 1) (i32.const 45))
+        (call $addToDeck (i32.const 1) (i32.const 40))
+        (call $addToDeck (i32.const 1) (i32.const 43))
+        (call $addToDeck (i32.const 1) (i32.const 30))
+        (call $addToDeck (i32.const 1) (i32.const 35))
+        (call $addToDeck (i32.const 1) (i32.const 9))
+        (call $addToDeck (i32.const 1) (i32.const 48))
+        (call $addToDeck (i32.const 1) (i32.const 12))
+        (call $addToDeck (i32.const 1) (i32.const 16))
+        (call $addToDeck (i32.const 1) (i32.const 47))
+        (call $addToDeck (i32.const 1) (i32.const 42))
         (call $addToDeck (i32.const 1) (i32.const 4))
-        (call $addToDeck (i32.const 1) (i32.const 7))
-        (call $addToDeck (i32.const 1) (i32.const 10))
+        (call $addToDeck (i32.const 1) (i32.const 2))
+        (call $addToDeck (i32.const 1) (i32.const 31))
+        (call $addToDeck (i32.const 1) (i32.const 41))
+        (call $addToDeck (i32.const 1) (i32.const 39))
+        (call $addToDeck (i32.const 1) (i32.const 23))
+        (call $addToDeck (i32.const 1) (i32.const 19))
+        (call $addToDeck (i32.const 1) (i32.const 36))
+        (call $addToDeck (i32.const 1) (i32.const 49))
+        (call $addToDeck (i32.const 1) (i32.const 6))
 
         ;; (drop 
             (call $calcResult
-                (call $playGame (i32.const 0) (i32.const 1) (i32.const 1000))
+                (call $playGame (i32.const 0) (i32.const 1) (i32.const 1500))
             )
         ;; )
 
