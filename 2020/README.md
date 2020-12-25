@@ -829,6 +829,34 @@ Phew it took most of another day but I've got a version that is working for the 
 
 Now to see if any of my memory bounds are a problem for the real input data
 
+### ~Dec 23rd [XL](https://xlr.sourceforge.io)~
+### ~Dec 23rd [Xtend](https://www.eclipse.org/xtend/)~
+### Dec 23rd [X10](http://x10-lang.org)
+
+
+Spent all of yesterday's allotted time trying to get my wasm solution finished 😫 Circling back to this one! I think I want to try to implement it in XL, although https://github.com/c3d/xl#compiler-status seems to imply that I might have to fight harder for it than I want. I'll give it a shot and fallback to something else if it doesn't work out
+
+Let's figure out building it for OSX since I don't feel like being desk-bound. There's no docs on what to do, but there is a makefile. After a weird submodule problem, got it going. Missing `llvm-config` because brew doesn't put all the `llvm` tools on the path, that's an easy fix, just gotta find llvm
+```
+brew info llvm
+# it's in /usr/local/Cellar/llvm/11.0.0.0
+export PATH=$PATH:/usr/local/Cellar/llvm/11.0.0/bin
+ ```
+
+ make install put it onto my path, but getting
+ ```
+ :1:1: File "xl.syntax" cannot be read: No such file or directory
+:1:1: File "xl.stylesheet" cannot be read: No such file or directory
+```
+
+those appear to be in `/usr/local/share/xl` so maybe I need to run it from there? seems broken but 🤷‍♂️ next up is to get my hello world program running. Won't have any syntax highlighting available - esp since so much of it is user-defined, but it seems to be fairly straightforward - run XL from inside the share directory. Thankfully we don't need file IO for this problem
+
+However, I also don't seem to be getting anywhere with it. So we'll be moving onto option number two, we're headed back to the JVM with Xtend, which is apparently Java but with less of the bad stuff? So far it's got at least one of the bad things, an assumption that I want to use eclipse. OK it's not actually even a separate language, just a syntax layer that eclipse can compile into Java. No thanks
+
+OK option #3 is X10 http://x10-lang.org and it seems to have an actual distribution, so let's give that a go at solving what is definitely a Performance Sensitive problem in need of a high perf language
+
+Definitely love that the code snippets in their documentation is all in images http://x10-lang.org/documentation/intro/latest/html/node3.html not at all annoying
+
 
 ### Dec 24th [Yorick](https://github.com/LLNL/yorick)
 
@@ -869,3 +897,17 @@ File IO doesn't seem to have a standard EOF read structure, so I'm going by "is 
 OK I doubled back on my idea of using a sparse grid because it was wrong, and also the math for doing proper hex grids isn't hard. Wrote it out on some paper, but basically with an offset grid, you can either offset in each direction when you go `nw` or `se` OR when you go `ne` or `sw` depending on what direction you're offsetting. In conclusion: don't be lazy about what turns out to be easy math
 
 And that's solved part one. Looks like part two is a whole different problem now that the tiles are in place. Off we go!
+
+### Dec 25th [Zig](https://en.wikipedia.org/wiki/Zig_(programming_language))
+
+to run
+```
+zig run part1.zig
+zig run part2.zig
+```
+
+Final day of the advent calendar - got a couple to double back to but still feels like a big deal to have reached day 25. I flirted slightly with Z-notation but going to go with something less bonkers to end this off. Time to do some decryptin'
+
+Zig is a bit annoying to work with, but straightforward anyway. [Why is % @mod](https://ziglang.org/documentation/0.7.1/#mod)? Overall it feels like they saw Rust and thought "let's have a less strict language that also feels Weird.
+
+Looks like there's no part two, so we're all done with zig!
