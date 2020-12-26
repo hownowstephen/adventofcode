@@ -831,7 +831,7 @@ Now to see if any of my memory bounds are a problem for the real input data
 
 ### ~Dec 23rd [XL](https://xlr.sourceforge.io)~
 ### ~Dec 23rd [Xtend](https://www.eclipse.org/xtend/)~
-### Dec 23rd [X10](http://x10-lang.org)
+### Dec 23rd [X10](http://x10-lang.org) 
 
 
 Spent all of yesterday's allotted time trying to get my wasm solution finished 😫 Circling back to this one! I think I want to try to implement it in XL, although https://github.com/c3d/xl#compiler-status seems to imply that I might have to fight harder for it than I want. I'll give it a shot and fallback to something else if it doesn't work out
@@ -855,8 +855,37 @@ However, I also don't seem to be getting anywhere with it. So we'll be moving on
 
 OK option #3 is X10 http://x10-lang.org and it seems to have an actual distribution, so let's give that a go at solving what is definitely a Performance Sensitive problem in need of a high perf language
 
-Definitely love that the code snippets in their documentation is all in images http://x10-lang.org/documentation/intro/latest/html/node3.html not at all annoying
+Definitely love that the code snippets in their documentation is all in images http://x10-lang.org/documentation/intro/latest/html/node3.html not at all annoying.
 
+Dec 25th and we have progress: x10 is now working. Needed to set JAVA_HOME - `brew info openjdk` gave me the path for that
+```
+export JAVA_HOME=/usr/local/Cellar/openjdk/15.0.1/
+```
+
+since it's a pretty outdated lang, it definitely wasn't ready for the security controls on the new OSX, so had to manually allow its `.so` files to be run
+```
+dyld: Library not loaded: @rpath/libx10.so
+  Referenced from: /Users/stephen/devel/hownowstephen/adventofcode/2020/dec23/./part1
+  Reason: no suitable image found.  Did find:
+	/Users/stephen/Downloads/x10-2.6.2_macosx_x86_64/stdlib/lib/libx10.so: code signature in (/Users/stephen/Downloads/x10-2.6.2_macosx_x86_64/stdlib/lib/libx10.so) not valid for use in process using Library Validation: library load disallowed by system policy
+  Abort trap: 6
+```
+
+also seems like it's got wacky magic around file naming, so had to make sure my class names match their filenames, otherwise ran into:
+```
+part1.x10:3-7: Public type must be declared in .x10 file.
+     	 Type: Part1
+     	 .x10 file: Part1
+1 error.
+```
+
+(even worse when I thought thanks to the terrible documentation that you needed to set a `package` name, which meant it expected I guess the file to be in a directory named after the package?). Not going great so far, but it [compiles](https://stackoverflow.com/questions/22283936/how-can-i-compile-the-x10-example) at least. Anytime now ready for this High Performance Programming. No syntax highlighters available, so I'm using the `java` one. it is Good Enough.
+
+First up looks like I need to know about the `Rail` type (reading their [pdf](http://x10.sourceforge.net/documentation/languagespec/x10-latest.pdf) which seems a little more up-to-date, maybe). As far as I can tell, it's just them inventing a new term for a static length list.. you know, an array? 
+
+Seems like the type system is pretty robust, can do constraints like `Long{self > 0}` for a natural number for example. Not going to bother with them for now, but may play depending on how long this problem takes.
+
+Not much to this problem, just some modular data gathering. Did some kind of rudimentary work to check for the destination cup, but figured doing it this way let me fairly easily do the work while using fixed-size arrays. Take that, small crab
 
 ### Dec 24th [Yorick](https://github.com/LLNL/yorick)
 
