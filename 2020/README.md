@@ -887,6 +887,33 @@ Seems like the type system is pretty robust, can do constraints like `Long{self 
 
 Not much to this problem, just some modular data gathering. Did some kind of rudimentary work to check for the destination cup, but figured doing it this way let me fairly easily do the work while using fixed-size arrays. Take that, small crab
 
+Part two is just doing all the same stuff with an extra million values tacked onto the list. Once I can figure out how to load in the values, we should be good to go.
+
+I like that the printer does something half-sensible with printing `Rail`s --
+```
+[3,8,9,1,2,5,4,6,7,10...(omitted 999990 elements]
+```
+and thankfully gave me enough to see that my values were ok. Now to see if 1M rounds Just Works :tm:
+
+Pretty annoying that `Console.out.println` doesn't seem to allow inlined expressions
+```
+Part2.x10:84: no viable alternative at input 'Console.OUT.println(cups(i+1) + " " + cups(i+2) + "=" + result)\n }'
+```
+had to set each of these to a `val`. Additionally annoying to have to remember `;` everywhere. I don't recall just how bad other languages are about missing ones, but `x10` seems to try to figure out if they're missing, and half the time doesn't know. 
+
+Anyway, Part2 will definitely work but it's going to take awhile to run. As we're floating on a raft, feels like I've got time, and also I don't really want to continue working in X10, so I'll leave it at that. I think and optimized version of this could possibly only needs to work with a slice of the data at a time, instead of the full 1M cells. If we look at how it'd play out on an infinite list for example, you're really keeping two things: a prefix and a suffix. 
+
+After implementing that way, it turned out to be even worse, shifting that much data around is a major time sink. I think actually the better approach here would be a combo of a linked list and a list of references. Here's the idea:
+- Generate a `Rail` of `Node` objects, where each node has a `next` value
+- To pull elements out, grab node with value `x` and move its next value to skip over the group, then take the group elements and point the next of the `dest` value at the first and the last at `dest+1`
+
+Had to fight a ton with constructors, and with no docs / discussion figuring it out was a bit of a pain but
+```
+Part2.x10:23: Cannot access a non-static field or method, or refer to "this" or "super" from a static context.
+```
+
+means that calling `new SubClass` from within a static main doesn't work, you need to instantiate the parent class and call a method on it, which I did with `run`
+
 ### Dec 24th [Yorick](https://github.com/LLNL/yorick)
 
 to run
