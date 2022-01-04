@@ -829,6 +829,10 @@ Phew it took most of another day but I've got a version that is working for the 
 
 Now to see if any of my memory bounds are a problem for the real input data
 
+OK I let it run for literally two days and it never completed. I think that the logic is sound, it was just wildly unoptimal because of the manual memory management. So it's time to track down another W language for part two, I'm thinking [Wyvern](https://wyvernlang.github.io/) as it seems to have reasonably recent support and isn't described as "experimental". It is however yet another language backed by java, so I assume there'll be quirks to getting it going
+
+And it's an academic lang, so I'll be on my own with the [official guide](https://raw.githubusercontent.com/wyvernlang/docs/master/guide/wyvern-guide.pdf) I think. At least so far it seems easy to read!
+
 ### ~Dec 23rd [XL](https://xlr.sourceforge.io)~
 ### ~Dec 23rd [Xtend](https://www.eclipse.org/xtend/)~
 ### Dec 23rd [X10](http://x10-lang.org) 

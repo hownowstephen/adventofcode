@@ -1,3 +1,6 @@
+run2wyvern:
+	~/Downloads/WyvernDemo20180325/bin/wyvern part2.wyv
+
 run2: part2.wasm
 	wasm-interp part2.wasm --run-all-exports
 
