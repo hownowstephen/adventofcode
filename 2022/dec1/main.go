@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 )
 
@@ -19,18 +20,20 @@ func main() {
 
 	s.Split(bufio.ScanLines)
 
-	var max, curr int
+	max := make([]int, 3)
+	var curr int
 	for s.Scan() {
 		i, err := strconv.Atoi(s.Text())
 		if err != nil || i == 0 {
 			curr = 0
 		}
 		curr += i
-		if curr > max {
-			max = curr
+		if curr > max[0] {
+			max[0] = curr
+			sort.Ints(max)
 		}
 	}
 
-	fmt.Println(max)
+	fmt.Println(max[0] + max[1] + max[2])
 
 }
