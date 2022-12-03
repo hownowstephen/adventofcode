@@ -7,23 +7,11 @@ import (
 	"strings"
 )
 
-var values = map[string]int{
-	"A": 0,
-	"B": 1,
-	"C": 2,
-	"X": 0,
-	"Y": 1,
-	"Z": 2,
-}
-
-func score(opponent, me string) int {
-	if values[opponent] == values[me] {
-		return 3
-	} else if values[opponent] == (values[me]+1)%3 {
-		return 0
-	} else {
-		return 6
+func mod(v int, m int) int {
+	if v < 0 {
+		return mod(v+m, m)
 	}
+	return v % m
 }
 
 func main() {
@@ -40,8 +28,9 @@ func main() {
 	var total int
 	for s.Scan() {
 		round := strings.SplitN(s.Text(), " ", 2)
-		opponent, me := round[0], round[1]
-		total += values[me] + 1 + score(opponent, me)
+		opponent, goal := int(round[0][0])-65, int(round[1][0])-88
+
+		total += goal*3 + mod(opponent+(goal-1), 3) + 1
 	}
 
 	fmt.Println(total)
