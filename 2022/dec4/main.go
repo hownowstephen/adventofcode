@@ -32,7 +32,7 @@ func main() {
 
 		start1, end1, start2, end2 := fi(matches[0][1]), fi(matches[0][2]), fi(matches[0][3]), fi(matches[0][4])
 
-		if start1 >= start2 && end1 <= end2 || start2 >= start1 && end2 <= end1 {
+		if (start1 >= start2 && start1 <= end2) || (end1 >= start2 && end1 <= end2) || (start2 >= start1 && start2 <= end1) || (end2 >= start1 && end2 <= end1) {
 			total++
 		}
 
