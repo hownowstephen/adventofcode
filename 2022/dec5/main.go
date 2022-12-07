@@ -52,12 +52,10 @@ func main() {
 	for s.Scan() {
 		command := strings.Split(s.Text(), " ")
 
-		count, src, dst := fi(command[1]), fi(command[3]), fi(command[5])
+		count, src, dst := fi(command[1]), fi(command[3])-1, fi(command[5])-1
 
-		for i := 0; i < count; i++ {
-			stacks[dst-1] = append(stacks[dst-1], stacks[src-1][len(stacks[src-1])-1])
-			stacks[src-1] = stacks[src-1][:len(stacks[src-1])-1]
-		}
+		stacks[dst] = append(stacks[dst], stacks[src][len(stacks[src])-count:]...)
+		stacks[src] = stacks[src][:len(stacks[src])-count]
 	}
 
 	for _, stack := range stacks {
