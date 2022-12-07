@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+const markerSize = 14
+
 func main() {
 
 	f, err := os.Open("input.txt")
@@ -22,13 +24,13 @@ func main() {
 	for s.Scan() {
 		t := s.Text()
 
-		b := []byte(t[:4])
-		for i := 4; i < len(t); i++ {
+		b := []byte(t[:markerSize])
+		for i := markerSize; i < len(t); i++ {
 			if uniq(b) {
 				fmt.Println(i)
 				break
 			}
-			b[i%4] = t[i]
+			b[i%markerSize] = t[i]
 		}
 	}
 
