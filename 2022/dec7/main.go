@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -94,12 +95,17 @@ func main() {
 		cwd.incrSz(sz)
 	}
 
-	var sum int
-	for _, sz := range root.sizes() {
-		if sz < 100000 {
-			sum += sz
+	all := root.sizes()
+
+	sort.Ints(all)
+
+	totalAvailable := 70000000 - all[len(all)-1]
+
+	for _, sz := range all {
+		if totalAvailable+sz > 30000000 {
+			fmt.Println(sz)
+			break
 		}
 	}
-	fmt.Println(sum)
 
 }
