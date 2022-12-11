@@ -6,6 +6,13 @@ import (
 	"os"
 )
 
+const (
+	n int = iota
+	s
+	e
+	w
+)
+
 func main() {
 
 	f, err := os.Open("input.txt")
@@ -18,8 +25,8 @@ func main() {
 
 	scanner.Split(bufio.ScanLines)
 
-	var vis [][]bool
 	var trees [][]byte
+	var scores [][]int
 	for scanner.Scan() {
 		b := scanner.Bytes()
 		line := make([]byte, len(b))
@@ -27,44 +34,53 @@ func main() {
 			line[i] = b[i]
 		}
 		trees = append(trees, line)
-		vis = append(vis, make([]bool, len(trees[0])))
+		scores = append(scores, make([]int, len(trees[0])))
 	}
 
-	var n = make([]byte, len(trees[0]))
-	var s = make([]byte, len(trees[0]))
+	var maxScore int
 	for i := 0; i < len(trees); i++ {
-		var w, e byte
 		for j := 0; j < len(trees[i]); j++ {
-			if trees[i][j] > n[j] {
-				vis[i][j] = true
-				n[j] = trees[i][j]
+
+			var scoreE int
+			for x := j + 1; x < len(trees[i]); x++ {
+				scoreE++
+				if trees[i][x] >= trees[i][j] {
+					break
+				}
 			}
 
-			if inv := len(trees) - i - 1; trees[inv][j] > s[j] {
-				vis[inv][j] = true
-				s[j] = trees[inv][j]
+			var scoreW int
+			for x := j - 1; x >= 0; x-- {
+				scoreW++
+				if trees[i][x] >= trees[i][j] {
+					break
+				}
 			}
 
-			if trees[i][j] > w {
-				vis[i][j] = true
-				w = trees[i][j]
+			var scoreS int
+			for y := i + 1; y < len(trees); y++ {
+				scoreS++
+				if trees[y][j] >= trees[i][j] {
+					break
+				}
 			}
 
-			if inv := len(trees[0]) - j - 1; trees[i][inv] > e {
-				vis[i][inv] = true
-				e = trees[i][inv]
+			var scoreN int
+			for y := i - 1; y >= 0; y-- {
+				scoreN++
+				if trees[y][j] >= trees[i][j] {
+					break
+				}
+			}
+
+			total := scoreE * scoreW * scoreN * scoreS
+
+			if total > maxScore {
+				maxScore = total
 			}
 		}
 	}
 
-	var total int
-	for i := 0; i < len(vis); i++ {
-		for j := 0; j < len(vis[0]); j++ {
-			if vis[i][j] {
-				total++
-			}
-		}
-	}
-	fmt.Println(total)
+	fmt.Println(maxScore)
 
 }
