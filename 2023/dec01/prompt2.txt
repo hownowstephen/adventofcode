@@ -1,0 +1,15 @@
+write a program that accepts a file flag as input, and iterates over the file. For each line in this file, we want to find the first and the last numeric value in the string.
+
+to help with debugging, please print your progress using the format 
+
+$originalLine -> first:$firstInteger last:$lastInteger concat:$concatenatedIntegers
+
+A numeric value may be a single digit 1-9, or multiple characters containing a word representing the corresponding digit, eg. one, two, three, etc. The line may contain strings that are not numeric and the program must be able to find substrings that are.
+
+The program should find the first and last occurrence in the string of a numeric value as defined above. The best way to find the values is using a regexp that explicitly looks for each possible value.
+
+After you have found the matching values, you MUST ensure they are converted to a valid integer string. For example, if the match is "one" it should be converted to "1". You should do this by creating a mapping from the english string value to the integer string. Ensure there is a mapping for all single digit integers.
+
+Once you have only integer strings: if there are two or more numeric values in the line, concatenate the first and last values together. Otherwise take only the first value.Convert the resulting string to an integer.
+
+Take the sum of each integer generated this way and print it out at the end of the run.

@@ -1,0 +1,1 @@
+write a main program with a flag for a file input that takes each line of the file and finds the first and last numeric value in that line, concatenates them and then converts those to a single list of integers. finally print out the sum of the list of integers
