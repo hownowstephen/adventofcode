@@ -15,7 +15,7 @@ func main() {
 	flag.Parse()
 
 	if *filePath == "" {
-		log.Fatal("Please provide a valid file path")
+		log.Fatal("Please provide a file path")
 	}
 
 	file, err := os.Open(*filePath)
@@ -30,7 +30,11 @@ func main() {
 	for scanner.Scan() {
 		line := scanner.Text()
 		first, last, concatenated := findFirstAndLastNumericValues(line)
-		sum += convertToInt(concatenated)
+		concatenatedInt, err := strconv.Atoi(concatenated)
+		if err != nil {
+			log.Fatal(err)
+		}
+		sum += concatenatedInt
 		fmt.Printf("%s -> first:%s last:%s concat:%s\n", line, first, last, concatenated)
 	}
 
@@ -49,8 +53,11 @@ func findFirstAndLastNumericValues(line string) (string, string, string) {
 		return "", "", ""
 	}
 
-	first := matches[0]
-	last := matches[len(matches)-1]
+	first := convertToInt(matches[0])
+	var last string
+	if len(matches) > 1 {
+		last = convertToInt(matches[len(matches)-1])
+	}
 
 	return first, last, concatenate(first, last)
 }
@@ -59,10 +66,11 @@ func concatenate(first, last string) string {
 	if first == last {
 		return first
 	}
+
 	return first + last
 }
 
-func convertToInt(s string) int {
+func convertToInt(s string) string {
 	mapping := map[string]string{
 		"one":   "1",
 		"two":   "2",
@@ -76,16 +84,8 @@ func convertToInt(s string) int {
 	}
 
 	if val, ok := mapping[s]; ok {
-		return toInt(val)
+		return val
 	}
 
-	return toInt(s)
-}
-
-func toInt(s string) int {
-	num, err := strconv.Atoi(s)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return num
+	return s
 }
