@@ -63,9 +63,6 @@ func findFirstAndLastNumericValues(line string) (string, string, string) {
 }
 
 func concatenate(first, last string) string {
-	if first == last {
-		return first
-	}
 
 	return first + last
 }
