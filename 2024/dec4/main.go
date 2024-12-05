@@ -8,6 +8,7 @@ import (
 	"iter"
 	"log"
 	"os"
+	"slices"
 	"strings"
 )
 
@@ -18,7 +19,7 @@ func main() {
 	}
 	defer f.Close()
 
-	if err := solution1(f); err != nil {
+	if err := solution2(f); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -43,6 +44,40 @@ func lineReader(f io.Reader) iter.Seq2[[]string, error] {
 		}
 
 	}
+}
+
+func solution2(f io.Reader) error {
+	matrix := make([][]string, 0)
+	for l := range lineReader(f) {
+		matrix = append(matrix, l)
+	}
+
+	var count int
+	for i := 0; i < len(matrix); i++ {
+		for j := 0; j < len(matrix[i]); j++ {
+			if matrix[i][j] == "A" {
+				if corners(matrix, j, i) {
+					count++
+				}
+			}
+		}
+	}
+
+	fmt.Println("total instances", count)
+	return nil
+}
+
+func corners(matrix [][]string, x, y int) bool {
+	if y-1 < 0 || y+1 >= len(matrix) || x-1 < 0 || x+1 >= len(matrix[y]) {
+		return false
+	}
+
+	c1 := []string{matrix[y-1][x-1], matrix[y+1][x+1]}
+	c2 := []string{matrix[y-1][x+1], matrix[y+1][x-1]}
+	slices.Sort(c1)
+	slices.Sort(c2)
+
+	return slices.Equal(c1, []string{"M", "S"}) && slices.Equal(c2, []string{"M", "S"})
 }
 
 func solution1(f io.Reader) error {
