@@ -12,13 +12,13 @@ import (
 )
 
 func main() {
-	f, err := os.Open("sample_input.txt")
+	f, err := os.Open("input.txt")
 	if err != nil {
 		log.Fatal("could not open file", err)
 	}
 	defer f.Close()
 
-	if err := solution1(f); err != nil {
+	if err := solution2(f); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -49,7 +49,7 @@ type point struct {
 	x, y int
 }
 
-func solution1(f io.Reader) error {
+func solution2(f io.Reader) error {
 	matrix := make([][]string, 0)
 	for l, err := range lineReader(f) {
 		if err != nil {
@@ -74,18 +74,20 @@ func solution1(f io.Reader) error {
 	for _, v := range points {
 		for i, p := range v {
 			for j := i + 1; j < len(v); j++ {
-				if point, ok := checkPoint(v[j], p, maxX, maxY); ok {
+				for point := range checkPoint(v[j], p, maxX, maxY) {
 					matrix[point.y][point.x] = "#"
 				}
-				if point, ok := checkPoint(p, v[j], maxX, maxY); ok {
+				for point := range checkPoint(p, v[j], maxX, maxY) {
 					matrix[point.y][point.x] = "#"
 				}
 			}
+			matrix[p.y][p.x] = "#"
 		}
 	}
 
 	var count int
 	for _, l := range matrix {
+		fmt.Println(l)
 		count += strings.Count(strings.Join(l, ""), "#")
 	}
 
@@ -93,14 +95,18 @@ func solution1(f io.Reader) error {
 	return nil
 }
 
-func checkPoint(p1, p2 point, maxX, maxY int) (point, bool) {
-	xPos := p1.x - (p2.x - p1.x)
-	if xPos < 0 || xPos > maxX {
-		return point{}, false
+func checkPoint(p1, p2 point, maxX, maxY int) iter.Seq[point] {
+	return func(yield func(point) bool) {
+		for i := 1; i < max(maxX, maxY); i++ {
+			xPos := p1.x - i*(p2.x-p1.x)
+			if xPos < 0 || xPos > maxX {
+				break
+			}
+			yPos := p1.y - i*(p2.y-p1.y)
+			if yPos < 0 || yPos > maxY {
+				break
+			}
+			yield(point{x: xPos, y: yPos})
+		}
 	}
-	yPos := p1.y - (p2.y - p1.y)
-	if yPos < 0 || yPos > maxY {
-		return point{}, false
-	}
-	return point{x: xPos, y: yPos}, true
 }
